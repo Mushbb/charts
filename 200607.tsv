@@ -1,0 +1,101 @@
+rank	country	code	point	prev_point	prev_rank
+1	Brazil	BRA	827	830	0
+2	Czech Republic	CZE	772	779	0
+3	Netherlands	NED	768	774	0
+4	Mexico	MEX	758	758	2
+5	USA	USA	756	760	-1
+5	Spain	ESP	756	759	0
+7	Portugal	POR	750	753	1
+8	France	FRA	749	754	-1
+9	Argentina	ARG	746	753	-1
+10	England	ENG	741	744	0
+11	Denmark	DEN	736	738	0
+11	Nigeria	NGA	736	737	1
+13	Italy	ITA	728	731	1
+14	Turkey	TUR	726	733	-1
+15	Cameroon	CMR	722	723	0
+16	Sweden	SWE	709	717	0
+17	Egypt	EGY	708	708	1
+18	Japan	JPN	705	709	-1
+19	Germany	GER	696	699	0
+20	Greece	GRE	694	699	-1
+21	Tunisia	TUN	693	694	0
+22	Uruguay	URU	689	692	0
+23	Iran	IRN	686	692	-1
+23	Croatia	CRO	686	690	1
+25	Romania	ROU	685	687	0
+26	Costa Rica	CRC	683	686	0
+27	Colombia	COL	681	684	0
+28	Senegal	SEN	679	681	1
+29	Korea Republic	KOR	677	678	1
+29	Poland	POL	677	682	-1
+31	Republic of Ireland	IRL	671	678	-1
+32	Cote d`Ivoire	CIV	669	668	0
+33	Paraguay	PAR	653	657	0
+34	Saudi Arabia	KSA	651	655	0
+35	Switzerland	SUI	648	651	0
+36	Morocco	MAR	646	649	0
+37	Russia	RUS	645	648	0
+37	Bulgaria	BUL	645	642	1
+39	Ecuador	ECU	631	636	0
+40	Norway	NOR	627	634	0
+41	Slovakia	SVK	613	615	2
+42	Australia	AUS	612	614	2
+42	Honduras	HON	612	616	-1
+44	Serbia and Montenegro	SCG	610	612	2
+45	Ukraine	UKR	609	616	-4
+46	Jamaica	JAM	607	614	-2
+47	Trinidad and Tobago	TRI	604	607	0
+48	Ghana	GHA	600	602	2
+49	Israel	ISR	599	607	-2
+49	Finland	FIN	599	604	0
+51	Guinea	GUI	597	597	1
+52	Iraq	IRQ	595	597	0
+53	South Africa	RSA	593	598	-2
+54	Bahrain	BHR	588	593	0
+55	Zimbabwe	ZIM	586	590	0
+56	Belgium	BEL	582	583	0
+57	Angola	ANG	581	578	1
+57	Zambia	ZAM	581	583	-1
+59	Scotland	SCO	576	564	3
+60	Uzbekistan	UZB	571	574	-1
+61	Togo	TOG	569	574	-2
+62	Guatemala	GUA	565	572	-1
+63	Bosnia and Herzegovina	BIH	561	563	0
+64	Chile	CHI	557	548	3
+65	Belarus	BLR	553	559	-1
+66	Mali	MLI	550	556	-1
+66	Peru	PER	550	548	1
+68	China PR	CHN	545	549	-2
+69	Congo DR	COD	544	546	1
+70	Latvia	LVA	541	547	-1
+71	Slovenia	SVN	539	544	0
+71	Venezuela	VEN	539	544	0
+71	United Arab Emirates	UAE	539	536	7
+74	Wales	WAL	538	540	0
+74	Kuwait	KUW	533	541	-1
+76	Hungary	HUN	535	538	-1
+77	Estonia	EST	534	533	2
+78	Qatar	QAT	533	537	-2
+79	Austria	AUT	531	537	-3
+80	Cuba	CUB	527	533	-1
+81	Panama	PAN	523	526	0
+82	Oman	OMA	519	524	0
+83	Canada	CAN	515	517	1
+84	Jordan	JOR	513	519	-1
+85	Albania	ALB	512	514	1
+86	Libya	LBY	511	515	-1
+87	Algeria	ALG	505	511	0
+88	Korea DPR	PRK	503	509	0
+89	Burkina Faso	BFA	500	503	0
+90	Syria	SYR	519	502	0
+91	FYR Macedonia	MKD	489	492	0
+92	Singapore	SIN	535	483	0
+93	Lithuania	LTU	481	465	6
+94	Rwanda	RWA	541	478	-1
+95	Kenya	KEN	0	476	-1
+96	Northern Ireland	NIR	469	471	0
+97	Uganda	UGA	468	470	0
+97	Sudan	SDN	0	473	-2
+99	Iceland	ISL	505	470	-2
+100	Cyprus	CYP	462	464	0

@@ -1,0 +1,101 @@
+rank	country	code	point	prev_point	prev_rank
+1	Brazil	BRA	66	66	0
+2	Italy	ITA	62	62	0
+3	Sweden	SWE	61	61	0
+4	Germany	GER	60	61	0
+5	Netherlands	NED	60	60	0
+6	Spain	ESP	59	59	0
+7	Switzerland	SUI	57	55	4
+8	Romania	ROU	57	57	-1
+9	Argentina	ARG	56	56	0
+10	Norway	NOR	55	57	-2
+11	Republic of Ireland	IRL	55	54	1
+12	Nigeria	NGA	54	55	-2
+13	Denmark	DEN	54	53	0
+14	Russia	RUS	53	52	3
+15	Colombia	COL	52	52	0
+16	Bulgaria	BUL	52	53	-2
+17	England	ENG	52	51	1
+18	Mexico	MEX	52	52	-2
+19	France	FRA	51	49	1
+20	Zambia	ZAM	49	48	1
+21	Belgium	BEL	49	50	-2
+22	Cote d`Ivoire	CIV	48	46	1
+23	USA	USA	47	47	-1
+24	Egypt	EGY	47	44	1
+25	Portugal	POR	47	46	-1
+26	Ghana	GHA	45	44	0
+27	Saudi Arabia	KSA	44	42	2
+28	Scotland	SCO	43	41	3
+29	Cameroon	CMR	43	42	-1
+30	Tunisia	TUN	43	42	-3
+31	Greece	GRE	42	41	1
+32	Czech Republic	CZE	40	39	3
+33	Morocco	MAR	40	41	-3
+34	Turkey	TUR	40	37	5
+35	Korea Republic	KOR	40	38	3
+36	Poland	POL	40	40	-3
+37	Japan	JPN	39	37	4
+38	Uruguay	URU	39	38	-2
+39	Northern Ireland	NIR	37	35	6
+40	Wales	WAL	37	39	-6
+41	Austria	AUT	37	37	-1
+42	Slovakia	SVK	37	36	0
+43	China PR	CHN	37	24	19
+44	Bolivia	BOL	37	35	0
+45	Iceland	ISL	36	38	-8
+46	Chile	CHI	36	36	-3
+47	Kuwait	KUW	34	21	31
+48	Finland	FIN	34	34	-1
+49	Mali	MLI	34	33	0
+50	Australia	AUS	33	32	2
+51	Israel	ISR	32	33	-3
+52	Hungary	HUN	32	32	2
+53	Senegal	SEN	32	30	2
+54	United Arab Emirates	UAE	32	27	5
+55	Zimbabwe	ZIM	32	34	-9
+56	Honduras	HON	32	32	-5
+57	Ecuador	ECU	31	32	-4
+58	Algeria	ALG	31	32	-8
+59	Canada	CAN	29	29	-2
+60	Qatar	QAT	29	23	11
+61	Lithuania	LTU	28	28	-3
+62	Costa Rica	CRC	27	30	-6
+63	Guinea	GUI	27	25	-2
+64	Iran	IRN	27	24	-1
+65	Oman	OMA	26	20	15
+66	Zaire	ZAI	26	25	-6
+67	Croatia	CRO	26	22	6
+68	Sierra Leone	SLE	26	24	-4
+69	South Africa	RSA	25	23	-2
+70	Malta	MLT	24	23	-4
+71	Peru	PER	24	24	-6
+72	Latvia	LVA	23	23	-2
+73	Slovenia	SVN	23	23	-4
+74	El Salvador	SLV	23	23	-6
+75	Cyprus	CYP	23	23	-3
+76	Niger	NIG	23	22	-2
+77	Uzbekistan	UZB	23	0	0
+78	Malawi	MWI	22	18	6
+79	Gabon	GAB	22	22	-4
+80	Korea DPR	PRK	21	22	-3
+81	Ukraine	UKR	21	21	-2
+82	Thailand	THA	20	19	0
+83	Iraq	IRQ	20	22	-7
+84	Bahrain	BHR	20	15	8
+85	Paraguay	PAR	19	19	-4
+86	Malaysia	MAS	19	15	8
+87	Jamaica	JAM	17	17	-1
+87	Kenya	KEN	17	17	-1
+89	Singapore	SIN	17	17	-1
+90	Tanzania	TAN	17	16	-1
+90	Trinidad and Tobago	TRI	17	17	-5
+92	Yugoslavia	YUG	17	18	-9
+93	Burkina Faso	BFA	16	16	-3
+94	Togo	TOG	15	10	20
+95	Hong Kong	HKG	15	11	15
+96	Bermuda	BER	0	16	-5
+97	New Zealand	NZL	15	15	-4
+98	Mozambique	MOZ	14	12	8
+99	Suriname	SUR	0	14	-4
+100	Yemen	YEM	17	11	9
