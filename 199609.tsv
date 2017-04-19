@@ -1,0 +1,101 @@
+rank	country	code	point	prev_point	prev_rank	
+1	Brazil	BRA	68	68	0
+2	Germany	GER	61	61	0
+3	Italy	ITA	61	60	1
+4	Spain	ESP	59	61	-1
+5	Russia	RUS	58	58	0
+6	Netherlands	NED	57	56	4
+7	Argentina	ARG	56	56	0
+8	France	FRA	56	56	1
+9	Denmark	DEN	56	56	-1
+10	Norway	NOR	55	57	-4
+11	Romania	ROU	55	55	1
+12	Mexico	MEX	54	55	1
+13	Sweden	SWE	54	55	-2
+14	Czech Republic	CZE	53	52	4
+15	Colombia	COL	53	53	2
+16	Portugal	POR	53	54	0
+17	Bulgaria	BUL	53	54	-3
+18	Switzerland	SUI	52	54	-3
+19	USA	USA	51	51	0
+20	Cote d`Ivoire	CIV	48	46	8
+21	England	ENG	48	50	-1
+22	Tunisia	TUN	48	47	0
+23	Egypt	EGY	48	47	0
+24	Belgium	BEL	47	46	2
+25	Zambia	ZAM	47	44	9
+26	Scotland	SCO	47	46	-1
+27	Nigeria	NGA	47	46	-3
+28	Republic of Ireland	IRL	47	49	-7
+29	Ghana	GHA	47	46	-2
+30	Turkey	TUR	46	45	1
+31	Japan	JPN	45	45	1
+32	Uruguay	URU	44	45	-2
+33	Poland	POL	43	45	0
+34	Greece	GRE	43	45	-5
+35	Slovakia	SVK	43	44	0
+36	Chile	CHI	42	42	0
+37	Cameroon	CMR	41	39	6
+38	Morocco	MAR	41	41	-1
+39	Austria	AUT	41	41	-1
+40	South Africa	RSA	40	33	19
+41	Croatia	CRO	40	41	-2
+42	Israel	ISR	40	40	-2
+43	Lithuania	LTU	38	39	2
+44	Finland	FIN	38	40	-3
+45	Northern Ireland	NIR	38	38	1
+46	Korea Republic	KOR	38	39	-2
+47	Senegal	SEN	38	35	6
+48	Algeria	ALG	38	38	-1
+49	Honduras	HON	38	30	20
+50	Iceland	ISL	37	38	-2
+51	Australia	AUS	37	37	-2
+52	Mali	MLI	37	36	0
+53	Bolivia	BOL	37	37	-3
+54	Saudi Arabia	KSA	37	40	-12
+55	Ecuador	ECU	36	34	3
+56	Jamaica	JAM	36	37	-5
+57	Trinidad and Tobago	TRI	36	35	-2
+58	Sierra Leone	SLE	36	31	10
+59	Zimbabwe	ZIM	36	33	2
+60	Latvia	LVA	35	35	-6
+61	Wales	WAL	33	34	-4
+62	Hungary	HUN	33	33	-2
+63	Guinea	GUI	32	34	-7
+64	Paraguay	PAR	32	33	-2
+65	Canada	CAN	32	32	-2
+66	China PR	CHN	32	32	-2
+67	Gabon	GAB	31	31	-2
+68	Zaire	ZAI	31	31	-2
+69	Peru	PER	31	31	-2
+70	Tanzania	TAN	31	29	4
+71	Slovenia	SVN	30	29	4
+71	Ukraine	UKR	30	30	0
+73	Cyprus	CYP	29	30	-3
+74	Uganda	UGA	29	30	-2
+75	United Arab Emirates	UAE	28	29	-2
+76	Mozambique	MOZ	27	27	2
+77	Thailand	THA	27	18	26
+78	Costa Rica	CRC	27	28	-2
+79	Georgia	GEO	27	28	-2
+80	Angola	ANG	26	26	-1
+81	Yugoslavia	YUG	26	25	-1
+82	El Salvador	SLV	26	17	22
+83	Qatar	QAT	24	24	-2
+84	Kuwait	KUW	24	24	-2
+85	Mauritania	MTN	24	19	14
+86	Sudan	SDN	23	23	-3
+87	Liberia	LBR	23	23	-3
+88	Belarus	BLR	23	22	0
+89	Malawi	MWI	24	23	-4
+90	Malta	MLT	22	22	-1
+91	Albania	ALB	21	23	-4
+92	Togo	TOG	0	23	-6
+93	Niger	NIG	21	21	-1
+94	FYR Macedonia	MKD	21	22	-4
+95	St. Vincent and the Grenadines	VIN	21	21	-4
+96	Cuba	CUB	21	21	-3
+97	Uzbekistan	UZB	20	20	-3
+98	Oman	OMA	20	20	-3
+99	Bahrain	BHR	20	20	-3
+100	Luxembourg	LUX	20	19	-2

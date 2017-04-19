@@ -1,0 +1,101 @@
+rank	country	code	point	prev_point	prev_rank	
+1	Brazil	BRA	835	842	0
+2	France	FRA	813	812	0
+3	Spain	ESP	792	785	0
+4	Czech Republic	CZE	762	719	7
+5	Netherlands	NED	748	733	0
+6	Mexico	MEX	743	735	-2
+7	USA	USA	735	724	2
+8	England	ENG	733	711	5
+9	Italy	ITA	729	723	1
+10	Turkey	TUR	723	733	-5
+11	Argentina	ARG	722	733	-6
+12	Germany	GER	715	726	-4
+12	Portugal	POR	715	661	10
+14	Greece	GRE	710	627	21
+15	Denmark	DEN	706	696	0
+16	Cameroon	CMR	702	717	-4
+16	Republic of Ireland	IRL	702	705	-2
+18	Nigeria	NGA	697	691	-2
+19	Sweden	SWE	686	667	-1
+20	Korea Republic	KOR	670	662	0
+21	Saudi Arabia	KSA	664	657	3
+21	Iran	IRN	664	663	-2
+23	Croatia	CRO	662	662	-3
+24	Belgium	BEL	660	670	-7
+24	Japan	JPN	660	658	-1
+26	Russia	RUS	655	645	5
+27	Poland	POL	653	652	-1
+28	Senegal	SEN	651	652	-2
+29	Paraguay	PAR	650	654	-4
+29	Costa Rica	CRC	650	652	-3
+31	Morocco	MAR	646	639	2
+32	Uruguay	URU	638	649	-3
+32	Romania	ROU	638	645	-1
+34	Egypt	EGY	637	649	-5
+35	Tunisia	TUN	634	639	-2
+36	Colombia	COL	622	615	1
+37	Ecuador	ECU	616	615	0
+38	Norway	NOR	613	616	-2
+39	South Africa	RSA	610	613	0
+40	Jordan	JOR	605	586	2
+41	Bulgaria	BUL	602	609	-1
+42	Slovenia	SVN	598	608	-1
+43	Iraq	IRQ	582	580	2
+44	Finland	FIN	578	586	-2
+45	Switzerland	SUI	577	576	2
+46	Zimbabwe	ZIM	576	560	2
+46	Mali	MLI	576	579	0
+48	Serbia and Montenegro	SCG	574	581	-4
+49	Jamaica	JAM	565	553	2
+50	Venezuela	VEN	562	554	0
+51	Bahrain	BHR	559	546	6
+52	Australia	AUS	556	558	-3
+53	Latvia	LVA	555	551	0
+54	Qatar	QAT	553	550	0
+54	Honduras	HON	553	547	1
+56	Kuwait	KUW	552	544	3
+57	Algeria	ALG	550	552	-5
+58	Oman	OMA	548	538	5
+59	Scotland	SCO	545	547	-4
+60	Israel	ISR	544	546	-3
+61	Wales	WAL	541	543	-1
+62	Cote d`Ivoire	CIV	539	525	7
+63	Trinidad and Tobago	TRI	536	515	14
+64	Thailand	THA	535	542	-3
+64	China PR	CHN	535	527	1
+66	Slovakia	SVK	534	542	-5
+66	Chile	CHI	534	527	-1
+66	Cuba	CUB	534	510	14
+69	Congo DR	COD	532	527	-4
+70	Libya	LBY	525	508	12
+71	United Arab Emirates	UAE	523	516	5
+71	Ghana	GHA	523	486	18
+73	Bosnia and Herzegovina	BIH	522	529	-9
+74	Zambia	ZAM	521	515	3
+75	Iceland	ISL	518	527	-10
+75	Peru	PER	518	522	-3
+77	Ukraine	UKR	515	523	-6
+78	Hungary	HUN	514	519	-4
+78	Angola	ANG	514	503	7
+80	Burkina Faso	BFA	513	520	-7
+80	Uzbekistan	UZB	513	504	3
+82	Estonia	EST	512	517	-7
+83	New Zealand	NZL	510	510	-3
+84	Syria	SYR	508	504	-1
+85	Belarus	BLR	507	502	1
+86	Kenya	KEN	502	513	-7
+86	Austria	AUT	502	524	-16
+88	Guatemala	GUA	501	493	-1
+88	Guinea	GUI	501	479	4
+90	Canada	CAN	495	466	5
+91	Haiti	HAI	486	487	-3
+92	FYR Macedonia	MKD	484	474	1
+93	Turkmenistan	TKM	481	483	-3
+94	Albania	ALB	480	481	-3
+95	Togo	TOG	474	471	-1
+96	Indonesia	IDN	472	462	1
+97	Congo	CGO	468	426	10
+98	Rwanda	RWA	467	449	2
+99	Bolivia	BOL	463	462	-2
+100	Uganda	UGA	461	462	-3
