@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<title>Object Constancy</title>
+<style>
+
+//@import url(https://bost.ocks.org/mike/style.css?aea6f0a);
+
+.html .value,
+.javascript .string,
+.javascript .regexp {
+  color: #756bb1;
+}
+
+.html .tag,
+.css .tag,
+.javascript .keyword {
+  color: #3182bd;
+}
+
+.comment {
+  color: #636363;
+}
+
+.html .doctype,
+.javascript .number {
+  color: #31a354;
+}
+
+.html .attribute,
+.css .attribute,
+.javascript .class,
+.javascript .special {
+  color: #e6550d;
+}
+
+svg {
+  font: 30px Hind;
+  padding-left: 70px;
+  padding-top: 30px;
+  background-color: black;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .3;
+}
+
+sup, sub {
+  line-height: 0;
+}
+
+blockquote q {
+  line-height: 1.5em;
+  display: inline;
+}
+
+blockquote q:before,
+blockquote q:after {
+  content: "";
+}
+
+.bar rect {
+  fill: steelblue;
+}
+
+.value {
+  fill: white;
+}
+
+.win {
+  font: 20px Arial;
+  fill: white;
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.axis path {
+  stroke: none;
+}
+
+.x.axis line {
+  stroke: lightgray;
+  stroke-width: 3;
+}
+
+.x.axis text {
+  fill: #444444;
+  font: 30px Arial Rounded;
+}
+
+.y.axis path {
+  stroke: black;
+}
+
+.cover{
+    object-fit: cover;
+    height: 160px;
+    max-width: 172px;
+    max-height: 160px;
+}
+
+.divv{
+    text-align: center;
+}
+
+</style>
+
+<table bgcolor="#000000" id="header">
+    <tr>
+	<td width="172"><div class="divv"><img src="pic/5.jpg" class="cover" id="pic"></div></td>
+	<td width="390" height="160">
+	    <p style="font: bold 30px Hind;color: #FFFFFF;margin-top: -12px;margin-bottom: -15px;">
+		<img id="flag2" height="30" src="" style="margin-left: 10px;margin-top: 0px;margin-bottom: -6px;">
+		<span id="game" style="font: bold 30px Hind;color: #FFFFFF;margin-left: 5px;margin-top: 0px;margin-bottom: -15px;">Quake 2</span>
+	    </p>
+	    <p style="font: bold 30px Hind;color: #FFFFFF;margin-top: -12px;margin-bottom: -15px;">
+		<img id="flag3" height="30" src="" style="margin-left: 10px;margin-top: 0px;margin-bottom: -6px;">
+		<span id="country" style="font: bold 30px Hind;color: #FFFFFF;margin-left: 5px;margin-top: 0px;margin-bottom: -15px;">Brazil</span>
+	    </p>
+	    <p id="name" style="font: bold 30px Hind;color: #FFFFFF;margin-left: 10px;margin-top: -12px;margin-bottom: -15px;">Lim Yo Hwan</p>
+	    <p id="total" style="font: bold 30px Hind;color: #FFFFFF;margin-left: 10px;margin-top: -15px;margin-bottom: -15px;">#1 starcraft player</p>
+	    <p id="streak" style="font: bold 30px Hind;color: #FFFFFF;margin-left: 10px;margin-top: -15px;margin-bottom: -10px;">for 1 month</p>
+	</td>
+	<td id="right" height="120" width="547" style="text-align:right;vertical-align: top;">
+	    <p style="font: bold 30px Hind;margin-top: 0px;margin-bottom: -20px;color: #FFFFFF;">Top 10 highest earning players on</p>
+	    <p style="font: 80px Hind;margin-top: -30px;margin-bottom: -40px;color: #FFFFFF;" id="date"></p>
+	</td>
+    </tr>
+</table>
+
+<p id="chart" style="margin-top: 0px">
+
+<div class="btn-group">
+    <button type="button" class="btn btn-primary" onclick=auto()>Next</button>
+</div>
+
+<script src="//d3js.org/d3.v2.min.js" charset="utf-8"></script>
+<script>
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+  this.parentNode.appendChild(this);
+  });
+};
+
+var color_arr = [];
+    color_arr['Quake II'] = "#3E8FFC";
+    color_arr['Quake III Arena'] = "#3D8BF4";
+    color_arr['QuakeWorld'] = "#3C87EB";
+    color_arr['Counter-Strike'] = "#3B82E1";
+    color_arr['Aliens versus Predator 2'] = "#397DD7";
+    color_arr['Unreal Tournament 2003'] = "#3778CE";
+    color_arr['Painkiller'] = "#3471C1";
+    color_arr['Doom 3'] = "#2665B7";
+    color_arr['Quake 4'] = "#235FAC";
+    
+    color_arr['StarCraft: Brood War'] = "#A7571F";
+    color_arr['Age of Empires II: The Age of Kings'] = "#E89256";
+    color_arr['WarCraft III'] = "#38A219";
+    color_arr['StarCraft II'] = "#D97026";
+    
+    color_arr['Dota 2'] = "#CBAE9A";
+
+var margin = {top: 20, right: 40, bottom: 10, left: 40},
+    width = 900,
+    height = 450 - margin.top - margin.bottom;
+
+var format = d3.format("d"),
+    record, 
+    ch = 58,
+    player;
+
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var y = d3.scale.ordinal()
+    .rangeRoundBands([0, height], .15);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("top")
+    .tickSize(-height - margin.bottom)
+    .tickFormat(d3.format("s"))
+    .tickPadding(10)
+    .ticks(5);
+    
+var svg = d3.select("#chart").append("svg")
+    .attr("width", width + margin.left + margin.right + 300)
+    .attr("height", height + margin.top + margin.bottom+ 300)
+    .style("margin-left", -margin.left + "px")
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("g")
+    .attr("class", "x axis");
+
+svg.append("g")
+    .attr("class", "y axis")
+  .append("line")
+    .attr("class", "domain")
+    .attr("y2", height);
+
+var back = svg.append("rect")
+     .attr("x",-100)
+     .attr("y",0)
+     .attr("height", 1000)
+     .attr("width", 100)
+     .style("fill","black");
+
+var nst = [];
+
+for(i=0;i<10;i++){
+    nst[i] = svg.append("text")
+	.attr("text-anchor", "end")
+	.attr("x", -10)
+	.attr("y", 35+(41*i))
+	.text(function(){
+	    if(i === 0)
+		return "1st";
+	    else if(i === 1)
+		return "2nd";
+	    else if(i === 2)
+		return "3rd";
+	    else 
+		return (new String(i+1) )+"th";
+	})
+	.style("fill","white");
+	//.style("font","30px Hind");
+}
+
+var MAX_PLAYER = 4995;
+var today = new Date(1996, 6, 20);
+var ridx = 0;
+var first = 1;
+
+var header = d3.select("#right")
+	.attr("width",width-390);
+
+document.body.style.backgroundColor = "black";
+
+var sync;
+var renew = [];
+var DUR = 500;
+var dur_all = 50;
+
+d3.tsv("Earn_Players.tsv", function(data) {
+    
+   // make everyone's score -1
+   var temp = {};
+   for(i=0;i<MAX_PLAYER;i++){
+       data[i].elo = 0;
+       data[i].game = "";
+       data[i].from = 0;
+       temp[data[i].id.toString()] = data[i];
+   }
+   
+   player = temp;
+   
+   clearTimeout(sync);
+});
+
+d3.tsv("Earn_Records.tsv", function(data) {
+   record = data;
+
+   sync = setTimeout( change(), 100000 );
+});
+
+function change() {
+  d3.transition()
+      .duration(dur_all*0.75)
+      .each(redraw);
+}
+var interv;
+
+function auto(){
+interv = setInterval(function(){
+    today.setDate(today.getDate()+1);
+    
+    change();
+}, dur_all/2);}
+
+var twidth = {};
+var previous = [];
+function redraw() {
+    // calculate prize results
+    var newday = new Date(today);
+    var daystr = formatDate(today);
+    
+    if( daystr === "2017-08-08"){
+	clearInterval(interv);
+	return;
+    }
+    
+    if( first === 1){
+	while( record[ridx].date !== "1999-03-14"){
+	    player[record[ridx].id].elo += parseInt(record[ridx].prize);
+	    player[record[ridx].id].game = record[ridx].game;
+	    player[record[ridx].id].from++;
+
+	    if( !renew.includes(record[ridx].id) )
+		renew.push(record[ridx].id);
+	    ridx++;
+	}
+	
+	today = new Date(1999, 2, 14);
+	daystr = formatDate(today);
+	first = 0;
+    }
+    
+    while( record[ridx].date === daystr ){	// each day
+	player[record[ridx].id].elo += parseInt(record[ridx].prize);
+	player[record[ridx].id].game = record[ridx].game;
+	player[record[ridx].id].from++;
+	
+	if( !renew.includes(record[ridx].id) )
+	    renew.push(record[ridx].id);
+	ridx++;
+    }
+    
+  var top = [];
+      for(i=0;i<renew.length;i++){
+	  top.push(player[renew[i]]);
+      }
+      
+      top = top.sort(function(a, b) { return b.elo - a.elo; }).slice(0, 10);
+  
+  var min = top[9].elo; var max = top[0].elo;
+  
+  x.domain( [min-((max-min)/2), max+((max-min)/3)] );
+  y.domain( top.map(function(d) { return d.id; }));
+
+  var bar = svg.selectAll(".bar")
+      .data(top, function(d) { return d.id; });
+
+  var barEnter = bar.enter().insert("g", ".axis");
+  
+  barEnter
+      .attr("class", "bar")
+      .attr("transform", function(d) { return "translate(0," + (y(d.id) + height) + ")"; })
+      .style("fill-opacity", 0);
+  
+  barEnter.append("rect")
+      .attr("width", function(d) { if( x(d.elo) > 0 ) return x(d.elo); })
+      .attr("height", y.rangeBand());
+
+    barEnter.append("text")
+      .attr("class", "label")
+      .attr("x", function(d) { return x(d.elo); })
+      .attr("y", y.rangeBand() / 2)
+      .attr("dy", ".35em")
+      .attr("text-anchor", "end")
+      //.style("fill", "white")
+      .text(function(d) { return d.name; });
+    
+    barEnter.append("svg:image")
+      .attr("class", "image")
+      .attr("x", function(d) { return x(d.elo); } )
+      .attr("y", 2)
+      .attr("xlink:href", function(d) {return "logos/"+removeColon(d.game)+".png";})
+      .attr("height", 30);
+      
+  barEnter.append("text")
+      .attr("class", "value")
+      .attr("x", function(d) { return x(d.elo) + 10; })
+      .attr("y", y.rangeBand() / 2)
+      .attr("dy", ".35em");
+      //.attr("text-anchor", "end");    
+  
+/*
+  barEnter.append("text")
+      .attr("class", "value")
+      .attr("x", age && function(d) { return x(d[age]) - 3; })
+      .attr("y", y.rangeBand() / 2)
+      .attr("dy", ".35em")
+      .attr("text-anchor", "end");
+
+    var min = top[0][age = age1] - top[9][age];
+    if( min > top[9][age]){
+	x.domain([0, top[0][age]]);
+    }
+    else{
+	min = top[9][age] - min;
+	x.domain([min, top[0][age]]);
+    }
+    xAxis.ticks(5);
+    */
+   
+  var barUpdate = d3.transition(bar);
+  var y0 = [];
+  
+  
+  barUpdate.duration(dur_all*0.8)
+      .attr("transform", function(d) { return "translate(0," + (y0[d.id] = y(d.id)) + ")"; })
+      .style("fill-opacity", 1);
+      //.each("end", function(){});
+  
+  
+  barUpdate.select("rect").duration(dur_all*0.75)
+      .attr("width", function(d) { if( x(d.elo) > 0 ) return x(d.elo); })
+      .style("fill", function(d){ return color_arr[d.game]; })
+      .each( function(d){ y0[d.id]; });
+      
+  barUpdate.select(".value").duration(dur_all*0.75)
+      .attr("x", function(d) { return x(d.elo) + 10; })
+      .text(function(d) { return formatMoney(d.elo);  });
+ 
+  
+  barUpdate.select(".label").duration(dur_all*0.75)
+      .attr("x", function(d) { return x(d.elo) - 10; })
+      .text(function(d) { 	  
+	  var age;
+	  if( d.bday === "" ) { age = " ? "; }
+	  else{
+	    var year = parseInt(d.bday.slice(0,4));
+	    var month = parseInt(d.bday.slice(5,2));
+	    var day = parseInt(d.bday.slice(8,2));
+	    age = today.getFullYear() - year;
+	    if (today.getMonth() < month || (today.getMonth() === month && today.getDate() < day)) {
+		age--;
+	    }
+	  }
+	  
+	  return d.name+" ("+age+")"; 
+	  })
+      .each(function(d) {
+	  if( twidth[d.name] === undefined )
+	    twidth[d.name] = this.getBBox().width;
+      });
+      
+  var barImage = barUpdate.select(".image").duration(dur_all*0.75)
+      .attr("x", function(d) { return x(d.elo) - twidth[d.name] - 110; })
+      .attr("xlink:href", function(d) {return "logos/"+removeColon(d.game)+".png";})
+      .attr("preserveAspectRatio","none");
+      
+  var barExit = d3.transition(bar.exit());
+  
+  barExit
+      //.attr("transform", function(d) { return "translate(0," + (y0[d.id] + height) + ")"; })
+      .style("fill-opacity", 0)
+      .remove();
+  
+  barExit.select("rect")
+      .attr("width", function(d) { if( x(d.elo) > 0 ) return x(d.elo); });
+
+  barExit.select(".value")
+      .attr("x", function(d) { return x(d.elo) - 3; })
+      .text(function(d) { return format(d.elo); });
+      
+  barExit.select(".label")
+      .attr("x", function(d) { return x(d.elo) - 10; });
+      
+  barExit.select(".image")
+      //.attr("width", function(d) { return -150; })
+      .remove();
+
+  d3.transition(svg).duration(dur_all)
+	  .select(".x.axis")
+      .call(xAxis);
+      
+  bar.moveToFront();
+  
+  var flag = document.getElementById("pic");
+  flag.src = "pic/"+top[0].id+".jpg";
+  flag = document.getElementById("flag2");
+  flag.src = "logos/"+removeColon(top[0].game)+".png";
+  flag = document.getElementById("flag3");
+  flag.src = "flags/"+top[0].country+".png";
+  
+  var date = document.getElementById("date");
+  date.textContent = strDate(today);
+  
+    var age;
+      if( top[0].bday === "-" ) { age = "?"; }
+      else{
+	var year = parseInt(top[0].bday.slice(0,4));
+	var month = parseInt(top[0].bday.slice(5,2));
+	var day = parseInt(top[0].bday.slice(8,2));
+	age = today.getFullYear() - year;
+	if (today.getMonth() < month || (today.getMonth() == month && today.getDate() < day)) {
+	    age--;
+	}
+      }
+  
+  document.getElementById("name").textContent = top[0].name + " ("+age+")";
+  document.getElementById("country").textContent = top[0].country;
+  document.getElementById("game").textContent = top[0].game;
+  document.getElementById("total").textContent = "total $ "+formatMoney(top[0].elo);
+  
+  
+  var str = document.getElementById("streak");
+  str.textContent = "from "+top[0].from+" tournaments";
+  
+  back.moveToFront();
+  for(i=0;i<10;i++){
+      nst[i].moveToFront();
+    }
+    
+    renew = [];
+    for(i=0;i<10;i++){
+	renew.push(top[i].id);
+	previous[i] = top[i];
+    }
+    
+    newday.setDate(newday.getDate()+1);
+    daystr = formatDate(newday);
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth()+1),
+        day = '' + d.getDate(),
+        year = '' + d.getFullYear();
+	
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+function strDate(date){
+    var d = new Date(date),
+        str = d.toDateString(),
+        month = str.slice(4, 7),
+	day = str.slice(8, 10),
+	year = str.slice(11,15);
+
+    return day+" "+month+" "+year;
+}
+
+function reverseString(str) {
+    var newString = "";
+    for (var i = str.length - 1; i >= 0; i--) {
+        newString += str[i];
+    }
+    return newString;
+}
+
+function formatMoney(prize){
+    var str = ''+prize,
+	len = str.length-1,
+        tem = [];
+	
+    for(i=len,j=0;i>=0;i--,j++){
+	if( j%4 === 3 )
+	    tem[j++] = ',';
+	
+	tem[j] = str[i];
+    }
+    
+    return reverseString(tem);
+}
+
+function removeColon(game){
+    var tem;
+    
+    var i = 0,
+	e = 0;
+    while(i < game.length ){ 
+	if( game[i] === ' ' || game[i] === ':'){
+	    e = 1;
+	    break;
+	}
+	
+	i++;
+    }
+    
+    if( e === 1 )
+	tem = game.slice(0,i);
+    else
+	tem = game;
+    
+    return tem;
+}
+
+</script>
