@@ -397,7 +397,7 @@ function redraw() {
       //.each("end", function(){});
   
   
-  barUpdate.select("rect").duration(dur_all*0.75)
+  barUpdate.select("rect").duration(dur_all*0.8)
       .attr("width", function(d) { if( x(d.elo) > 0 ) return x(d.elo); })
       .style("fill", function(d){ return color_arr[d.game]; })
       .each( function(d){ y0[d.id]; });
