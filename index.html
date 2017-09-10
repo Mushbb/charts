@@ -270,6 +270,7 @@ d3.tsv("Earn_Records.tsv", function(data) {
 function change() {
   d3.transition()
       .duration(dur_all*0.75)
+      .ease("linear")
       .each(redraw);
 }
 var interv;
