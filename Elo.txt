@@ -1,0 +1,14 @@
+1) Every new player is start with 2000 rating.
+2) Change of Elo rating is depends on difference between players and K-value.
+3) K-value is modified by a player's current rating.
+(top players' rating is hardly change, and also new players' rating is easily change.)
+
+Elo < 2050  : K = 20
+Elo < 2100  : K = 18
+Elo < 2150  : K = 16
+Elo < 2200  : K = 12
+Elo < 2250  : K = 11
+Elo >= 2250 : K = 10
+
+More detail about Elo rating:
+https://metinmediamath.wordpress.com/2013/11/27/how-to-calculate-the-elo-rating-including-example/
