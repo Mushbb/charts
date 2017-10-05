@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Object Constancy</title>
+<title>Starcraft players Elo</title>
 <style>
 
 //@import url(https://bost.ocks.org/mike/style.css?aea6f0a);
@@ -34,7 +34,7 @@
 }
 
 svg {
-  font: 30px Hind;
+  font: Bold 30px Arial Narrow;
   padding-left: 70px;
   padding-top: 30px;
   background-color: black;
@@ -61,15 +61,11 @@ blockquote q:after {
 }
 
 .bar rect {
-  fill: steelblue;
+  fill: #9E9E9E;
 }
 
 .value {
-  fill: white;
-}
-
-.win {
-  font: 20px Arial;
+  font: Bold 30px Arial;
   fill: white;
 }
 
@@ -88,48 +84,64 @@ blockquote q:after {
 
 .x.axis text {
   fill: #444444;
-  font: 30px Arial Rounded;
+  font: 25px Arial Narrow;
 }
 
 .y.axis path {
   stroke: black;
 }
 
-.cover{
-    object-fit: cover;
-    height: 160px;
-    max-width: 172px;
-    max-height: 160px;
+.date{
+    fill: white;
+    font: bold 80px Hind;
 }
 
-.divv{
-    text-align: center;
+.picture{
+    object-fit: cover;
+    height: 190px;
+}
+
+.streak{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.peak{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.alltime{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.nat{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.name{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.nick{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.forward{
+    fill: red;
+    font: Bold 30px Hind;
+}
+
+.win{
+    font: 25px Arial Narrow;
+    fill: white;
 }
 
 </style>
-
-<table bgcolor="#000000" id="header">
-    <tr>
-	<td width="172"><div class="divv"><img src="pic/5.jpg" class="cover" id="pic"></div></td>
-	<td width="390" height="160">
-	    <p style="font: bold 30px Hind;color: #FFFFFF;margin-top: -12px;margin-bottom: -15px;">
-		<img id="flag2" height="30" src="" style="margin-left: 10px;margin-top: 0px;margin-bottom: -6px;">
-		<span id="game" style="font: bold 30px Hind;color: #FFFFFF;margin-left: 5px;margin-top: 0px;margin-bottom: -15px;">Quake 2</span>
-	    </p>
-	    <p style="font: bold 30px Hind;color: #FFFFFF;margin-top: -12px;margin-bottom: -15px;">
-		<img id="flag3" height="30" src="" style="margin-left: 10px;margin-top: 0px;margin-bottom: -6px;">
-		<span id="country" style="font: bold 30px Hind;color: #FFFFFF;margin-left: 5px;margin-top: 0px;margin-bottom: -15px;">Brazil</span>
-	    </p>
-	    <p id="name" style="font: bold 30px Hind;color: #FFFFFF;margin-left: 10px;margin-top: -12px;margin-bottom: -15px;">Lim Yo Hwan</p>
-	    <p id="total" style="font: bold 30px Hind;color: #FFFFFF;margin-left: 10px;margin-top: -15px;margin-bottom: -15px;">#1 starcraft player</p>
-	    <p id="streak" style="font: bold 30px Hind;color: #FFFFFF;margin-left: 10px;margin-top: -15px;margin-bottom: -10px;">for 1 month</p>
-	</td>
-	<td id="right" height="120" width="547" style="text-align:right;vertical-align: top;">
-	    <p style="font: bold 30px Hind;margin-top: 0px;margin-bottom: -20px;color: #FFFFFF;">Top 10 highest earning players on</p>
-	    <p style="font: 80px Hind;margin-top: -30px;margin-bottom: -40px;color: #FFFFFF;" id="date"></p>
-	</td>
-    </tr>
-</table>
 
 <p id="chart" style="margin-top: 0px">
 
@@ -139,33 +151,35 @@ blockquote q:after {
 
 <script src="//d3js.org/d3.v2.min.js" charset="utf-8"></script>
 <script>
-d3.selection.prototype.moveToFront = function() {
-  return this.each(function(){
-  this.parentNode.appendChild(this);
-  });
-};
+    d3.selection.prototype.moveToFront = function() {
+	return this.each(function(){
+	    this.parentNode.appendChild(this);
+	});
+    };
+    d3.selection.prototype.moveToBack = function() {  
+        return this.each(function() { 
+            var firstChild = this.parentNode.firstChild; 
+            if (firstChild) { 
+                this.parentNode.insertBefore(this, firstChild); 
+            } 
+        });
+    };
 
+
+// national indexes
 var color_arr = [];
-    color_arr['Quake II'] = "#3E8FFC";
-    color_arr['Quake III Arena'] = "#3D8BF4";
-    color_arr['QuakeWorld'] = "#3C87EB";
-    color_arr['Counter-Strike'] = "#3B82E1";
-    color_arr['Aliens versus Predator 2'] = "#397DD7";
-    color_arr['Unreal Tournament 2003'] = "#3778CE";
-    color_arr['Painkiller'] = "#3471C1";
-    color_arr['Doom 3'] = "#2665B7";
-    color_arr['Quake 4'] = "#235FAC";
+    color_arr[0] = "#2196F3";
+    color_arr[1] = "#F57C00";
+    color_arr[2] = "#009688";
     
-    color_arr['StarCraft: Brood War'] = "#A7571F";
-    color_arr['Age of Empires II: The Age of Kings'] = "#E89256";
-    color_arr['WarCraft III'] = "#38A219";
-    color_arr['StarCraft II'] = "#D97026";
-    
-    color_arr['Dota 2'] = "#CBAE9A";
+var name_arr = [];
+    name_arr[0] = "Terran";
+    name_arr[1] = "Zerg";
+    name_arr[2] = "Protoss";
 
-var margin = {top: 20, right: 40, bottom: 10, left: 40},
-    width = 900,
-    height = 450 - margin.top - margin.bottom;
+var margin = {top: 165, right: 40, bottom: 10, left: 40},
+    width = 1000,
+    height = 595 - margin.top - margin.bottom;
 
 var format = d3.format("d"),
     record, 
@@ -182,16 +196,99 @@ var xAxis = d3.svg.axis()
     .scale(x)
     .orient("top")
     .tickSize(-height - margin.bottom)
-    .tickFormat(d3.format("s"))
+    .tickFormat(d3.format("d"))
     .tickPadding(10)
     .ticks(5);
-    
+  
 var svg = d3.select("#chart").append("svg")
-    .attr("width", width + margin.left + margin.right + 300)
+    .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .style("margin-left", -margin.left + "px")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+/////////////////////////////////////////////////////////////////////////////
+// Upboard
+    
+var board = d3.select("#chart").select("svg").append("g")
+	.attr("class", "board")
+	.attr("transform", "translate(" + margin.left + "," + 0 + ")");
+
+board.append("rect")
+     .attr("x", width-430)
+     .attr("y",-100)
+     .attr("height", 200)
+     .attr("width", 430)
+     .style("fill","black");
+
+board.append("text")
+	.attr("x", width )
+	.attr("y", 5)
+	.attr("text-anchor", "end")
+	.text("Top 10 starcraft players by Elo on")
+	.style("fill", "white")
+	.style("font" ,"bold 30px Arial Narrow");
+
+board.append("text")
+	.attr("class","date")
+	.attr("x", width+10 )
+	.attr("y", 75)
+	.attr("text-anchor", "end");
+
+board.append("svg:image")
+	.attr("class","flag")
+	.attr("x", -60+195)
+	.attr("y", -20)
+	.attr("height", 30);
+
+board.append("text")
+	.attr("class","nat")
+	.attr("x", -60+195+35)
+	.attr("y", 5);
+
+board.append("text")
+	.attr("class","name")
+	.attr("x", -60+195)
+	.attr("y", 40);
+
+board.append("text")
+	.attr("class","nick")
+	.attr("x", -60+195)
+	.attr("y", 75);
+
+board.append("text")
+	.attr("x", -60+195)
+	.attr("y", 110)
+	.text("#1 Starcraft Player")
+	.style("fill", "white")
+	.style("font" ,"bold 30px Hind");
+
+board.append("text")
+	.attr("class","streak")
+	.attr("x", -60+195)
+	.attr("y", 145);
+
+board.append("text")
+	.attr("class","alltime")
+	.attr("x", -60+195+180)
+	.attr("y", 145);
+
+board.append("svg:image")
+	.attr("class","picture")
+	.attr("x", -70)
+	.attr("y", -30)
+	.attr("width", 190)
+	.attr("hieght", 190);
+
+board.append("text")
+	.attr("class","forward")
+	.attr("x", width)
+	.attr("y", 110)
+	.attr("text-anchor", "end")
+	.style("fill","none")
+	.text("Fast Forward >>");
+
+////////////////////////////////////////////////////////////////////////
 
 svg.append("g")
     .attr("class", "x axis");
@@ -230,144 +327,346 @@ for(i=0;i<10;i++){
 	//.style("font","30px Hind");
 }
 
-var MAX_PLAYER = 4995;
-var today = new Date(1996, 6, 20);
-var ridx = 0;
+var MAX_PLAYER = 1456;
+var today = new Date(1999, 8, 25);
+var midx;
 var first = 1;
-
+/*
 var header = d3.select("#right")
 	.attr("width",width-390);
-
+*/
 document.body.style.backgroundColor = "black";
 
 var sync;
 var renew = [];
 var DUR = 500;
-var dur_all = 50;
+var dur_all = 120;
 
-d3.tsv("Earn_Players.tsv", function(data) {
-    
+var player = {};
+
+d3.tsv("SC_players.tsv", function(data) {
    // make everyone's score -1
+   
    var temp = {};
-   for(i=0;i<MAX_PLAYER;i++){
-       data[i].elo = 0;
-       data[i].game = "";
-       data[i].from = 0;
+   for(var i=0;i<MAX_PLAYER;i++){
+       data[i].elo = -1;
+       data[i].peak = -1;
+       data[i].win = 0;
+       data[i].lose = 0;
+       data[i].streak = 0;
+       data[i].p_str = 0;
+       
+       if(data[i].bday !== '-')
+	    data[i].bday = new Date(data[i].bday);
+       
        temp[data[i].id.toString()] = data[i];
    }
-   
    player = temp;
    
    clearTimeout(sync);
 });
 
-d3.tsv("Earn_Records.tsv", function(data) {
+d3.tsv("SC_matches.tsv", function(data) {
    record = data;
-
+   midx = record.length-1;
+   
    sync = setTimeout( change(), 100000 );
 });
 
 function change() {
   d3.transition()
-      .duration(dur_all*0.75)
-      .ease("linear")
+      .duration(dur_all*1.5)
+  //    .ease("linear")
       .each(redraw);
 }
+
+var fame = 0;
+
 var interv;
-
 function auto(){
-interv = setInterval(function(){
-    today.setDate(today.getDate()+1);
-    
-    change();
-}, dur_all/2);}
+    interv = setInterval(function(){
+	today.setDate(today.getDate()+1);
 
-var twidth = {};
-var previous = [];
-function redraw() {
-    // calculate prize results
-    var newday = new Date(today);
-    var daystr = formatDate(today);
-    
-    if( daystr === "2017-08-08"){
-	clearInterval(interv);
-	return;
-    }
-    
-    if( first === 1){
-	while( record[ridx].date !== "1999-03-14"){
-	    player[record[ridx].id].elo += parseInt(record[ridx].prize);
-	    player[record[ridx].id].game = record[ridx].game;
-	    player[record[ridx].id].from++;
-
-	    if( !renew.includes(record[ridx].id) )
-		renew.push(record[ridx].id);
-	    ridx++;
+	if( today.getFullYear() === 2012 &&
+	    today.getMonth() === 7 &&
+	    today.getDate() === 4 ){
+	    // after action peak elo
+	
+	    today.setDate(today.getDate()-1);
+	
+	    var k = 0;
+	    renew = [];
+	    for( k in player ){
+		if ( player[k].peak > 2300 ){
+		    player[k].elo = player[k].peak;
+		    renew.push(player[k].id);
+		}
+	    }
+	    
+	    svg.append("text")
+		.attr("class","peak")
+		.attr("x", x(2440))
+		.attr("y", 0)
+		.text("Peak Elo ratings");
+	    
+	    setTimeout( function(){
+		fame = 1;
+		dur_all *= 2;
+		change();
+		setInterval( function(){
+		    change();
+		}, dur_all);
+	    }, 5000 );
+	    
+	    clearInterval(interv);
+	    return;
 	}
 	
-	today = new Date(1999, 2, 14);
-	daystr = formatDate(today);
-	first = 0;
-    }
-    
-    while( record[ridx].date === daystr ){	// each day
-	player[record[ridx].id].elo += parseInt(record[ridx].prize);
-	player[record[ridx].id].game = record[ridx].game;
-	player[record[ridx].id].from++;
+	// Fast Forward 2011 Sep 18 ~ 2011 Nov 25
+	if( today.getFullYear() === 2011 &&
+	    today.getMonth() === 8 &&
+	    today.getDate() === 18 ){
+	    board.select(".forward")
+		.style("fill","red");
+	    clearInterval(interv);
+	    dur_all = dur_all/10;
+	    auto();
+	}
 	
-	if( !renew.includes(record[ridx].id) )
-	    renew.push(record[ridx].id);
-	ridx++;
+	if( today.getFullYear() === 2011 &&
+	    today.getMonth() === 10 &&
+	    today.getDate() === 25 ){
+	    board.select(".forward")
+		.style("fill","none");
+	    clearInterval(interv);
+	    dur_all = dur_all*10;
+	    auto();
+	}
+
+	change();
+}, dur_all);}
+
+var twidth = {};
+var streak;
+var previous;
+
+var dom_x = 1900, dom_y = 2100;
+x.domain( [dom_y, dom_x] );
+
+var dummy = [];
+dummy[0] = 1526;  dummy[1] = 1527;  dummy[2] = 1528;  dummy[3] = 1529;
+
+function redraw() { 
+    /*
+    if( first === 1){
+	while( record[ridx].date !== "13-Oct-68" ){ // .replace(/\,/g,'')
+	    if( player[record[ridx].competitor].record === -1 )
+		player[record[ridx].competitor].record = parseFloat(record[ridx].mark);
+	    else{
+		player[record[ridx].competitor].record = 
+		    (player[record[ridx].competitor].record > parseFloat(record[ridx].mark)) ?
+		    parseFloat(record[ridx].mark) : player[record[ridx].competitor].record;
+	    }
+
+	    if( !renew.includes(record[ridx].competitor) )
+		renew.push(record[ridx].competitor);
+	    
+	    ridx++;
+	}
+	first = 0;
+	today = new Date(1968, 7, 13);
+	//streak = ((new Date(1984, 7, 22)) - (new Date(1968, 9, 14))) / (1000*60*60*24);
+    }*/
+    
+    // each day
+    if( record[midx] !== undefined ){ 
+	while( record[midx].date === strDate(today) ){
+	    var w = record[midx].win.toString();
+	    var l = record[midx].lose.toString();
+
+	    if( player[w] === undefined || player[l] === undefined ){
+		midx--;
+		continue;
+	    }
+
+	    if( player[w].elo === -1 ){
+	       player[w].elo = 2000;
+	    }
+
+	    if( player[l].elo === -1 ){
+		player[l].elo = 2000;
+	    }
+	    player[w].win++;
+	    player[l].lose++;
+
+
+	    // K is 10 at all rating
+	    var K1, K2;
+	    if( player[w].elo < 2050 )
+		K1 = 20;
+	    else if( player[w].elo < 2100 )
+		K1 = 17;
+	    else if( player[w].elo < 2150 )
+		K1 = 14;
+	    else if( player[w].elo < 2200 )
+		K1 = 12;
+	    else if( player[w].elo < 2250 )
+		K1 = 11;
+	    else
+		K1 = 10;
+	    
+	    if( player[l].elo < 2050 )
+		K2 = 20;
+	    else if( player[l].elo < 2100 )
+		K2 = 17;
+	    else if( player[l].elo < 2150 )
+		K2 = 14;
+	    else if( player[l].elo < 2200 )
+		K2 = 12;
+	    else if( player[l].elo < 2250 )
+		K2 = 11;
+	    else
+		K2 = 10;
+	    
+	    var r1 = Math.pow(10,player[w].elo/400);
+	    var r2 = Math.pow(10,player[l].elo/400);
+
+	    var e1 = r1 / (r1 + r2);
+	    var e2 = r2 / (r1 + r2);
+
+	    player[w].elo = player[w].elo + K1*(1 - e1);
+	    player[l].elo = player[l].elo + K2*(0 - e2);
+
+	    if( player[w].elo > player[w].peak )
+		player[w].peak = player[w].elo;
+	    if( player[l].elo > player[l].peak )
+		player[l].peak = player[l].elo;
+
+	    midx--;
+	    if( !renew.includes(w) )
+		renew.push(w);
+	    if( !renew.includes(l) )
+		renew.push(l);
+	}
     }
     
-  var top = [];
-      for(i=0;i<renew.length;i++){
-	  top.push(player[renew[i]]);
-      }
-      
-      top = top.sort(function(a, b) { return b.elo - a.elo; }).slice(0, 10);
+    var top = [];
+    
+    for(i=0;i<renew.length;i++){
+	top.push(player[renew[i]]);
+    }
+    renew = [];
+    
+    top = top.sort(function(a, b) { 
+	return b.elo - a.elo; 
+    }).slice(0, 10);
   
-  var min = top[9].elo; var max = top[0].elo;
+    var max = top[0].elo;	var min = top[9<(top.length-1)?9:(top.length-1)].elo; 
+    if( max < min+7 )
+	min = max-7;
+    //var cor = top[0].record/top[1].record;
   
-  x.domain( [min-((max-min)/2), max+((max-min)/3)] );
-  y.domain( top.map(function(d) { return d.id; }));
+    var dum = 0;
+    while( top.length < 10 ){
+	top.push(player[dummy[dum++]]);
+    }
+    
+    if( dom_x > (min-(x.invert(300)-x.invert(0)) ) ){
+       dom_x = (min-(x.invert(300)-x.invert(0)) )  > (dom_x - (x.invert(20) - x.invert(0))) ?
+	    (min-(x.invert(300)-x.invert(0)) ) : (dom_x - (x.invert(20) - x.invert(0)));
+    }
+    else if( dom_x < (min-(x.invert(300)-x.invert(0)) ) ){
+       dom_x = (min-(x.invert(300)-x.invert(0)) )  < (dom_x + (x.invert(20) - x.invert(0))) ?
+	    (min-(x.invert(300)-x.invert(0)) ) : (dom_x + (x.invert(20) - x.invert(0)));
+    }
+    
+    if( dom_y < (max+(x.invert(150)-x.invert(0)) ) ){
+       dom_y = (max+(x.invert(150)-x.invert(0)) )  < (dom_y + (x.invert(20) - x.invert(0))) ?
+	    (max+(x.invert(150)-x.invert(0)) ) : (dom_y + (x.invert(20) - x.invert(0)));
+    }
+    else if( (max > 90) && dom_y > (max+(x.invert(150)-x.invert(0)) ) ){
+       dom_y = (max+(x.invert(150)-x.invert(0)) )  > (dom_y - (x.invert(20) - x.invert(0))) ?
+	    (max+(x.invert(150)-x.invert(0)) ) : (dom_y - (x.invert(20) - x.invert(0)));
+    }
+    
+    /*
+    if( dom_y > (max+(x.invert(150)-x.invert(0)) ) ){
+       dom_y = dom_y + (x.invert(2) - x.invert(0));
+    }*/
+    
+   // dom_x;  // previous
+   // dom_x = (dom_x > (min+(x.invert(150)-x.invert(0)))) ? (dom_x - (x.invert(2) - x.invert(0))) : dom_x;
+   
+   /*
+   else if( dom_x > (min+(x.invert(150)-x.invert(0)) ) ){
+       dom_x = dom_x - (x.invert(2) + x.invert(0));
+   }*/
+/*
+    if( (dom_x - dom_y) < 0.2 )
+	x.domain( [dom_y, dom_y+0.2] );
+    else*/
+	x.domain( [dom_x, dom_y] );
+  
+    y.domain( top.map(function(d) { return d.id; }));
+    
+    if( fame === 0 ){
+	top[0].streak++;
+    }
+    
+    /*
+    var k=0;
+    while( top[k].score === top[k+1].score ){
+	if ( streak[top[k+1].title] === undefined )
+	    streak[top[k+1].title] = 1;
+	else
+	    streak[top[k+1].title]++;
+	k++;
+    }*/
 
   var bar = svg.selectAll(".bar")
       .data(top, function(d) { return d.id; });
 
   var barEnter = bar.enter().insert("g", ".axis");
   
-  barEnter
+    barEnter
       .attr("class", "bar")
       .attr("transform", function(d) { return "translate(0," + (y(d.id) + height) + ")"; })
-      .style("fill-opacity", 0);
+      .style("fill-opacity", 1);
   
-  barEnter.append("rect")
-      .attr("width", function(d) { if( x(d.elo) > 0 ) return x(d.elo); })
-      .attr("height", y.rangeBand());
+    barEnter.append("rect")
+	.attr("width", 0 )
+	.attr("height", y.rangeBand());
 
     barEnter.append("text")
       .attr("class", "label")
-      .attr("x", function(d) { return x(d.elo); })
+      .attr("x", 0)
       .attr("y", y.rangeBand() / 2)
       .attr("dy", ".35em")
       .attr("text-anchor", "end")
       //.style("fill", "white")
-      .text(function(d) { return d.name; });
+      .text(function(d) { return d.nick; });
     
     barEnter.append("svg:image")
       .attr("class", "image")
-      .attr("x", function(d) { return x(d.elo); } )
+      .attr("x", 0)
       .attr("y", 2)
-      .attr("xlink:href", function(d) {return "logos/"+removeColon(d.game)+".png";})
-      .attr("height", 30);
+      .attr("xlink:href", function(d) {return "race/"+d.race+".png";})
+      .attr("height", 30)
+      .attr("preserveAspectRatio","none");
       
   barEnter.append("text")
       .attr("class", "value")
-      .attr("x", function(d) { return x(d.elo) + 10; })
+      .attr("x", 0)
       .attr("y", y.rangeBand() / 2)
-      .attr("dy", ".35em");
+      .attr("dy", ".35em")
+      .text(2000);
       //.attr("text-anchor", "end");    
+  
+  barEnter.append("text")
+      .attr("class", "win")
+      .attr("x", 0)
+      .attr("y", y.rangeBand() / 2)
+      .attr("dy", ".35em"); 
   
 /*
   barEnter.append("text")
@@ -388,124 +687,178 @@ function redraw() {
     xAxis.ticks(5);
     */
    
-  var barUpdate = d3.transition(bar);
+  var barUpdate = d3.transition(bar).ease("linear");
   var y0 = [];
-  
-  
-  barUpdate.duration(dur_all*0.8)
-      .attr("transform", function(d) { return "translate(0," + (y0[d.id] = y(d.id)) + ")"; })
-      .style("fill-opacity", 1);
-      //.each("end", function(){});
-  
-  
-  barUpdate.select("rect").duration(dur_all*0.8)
-      .attr("width", function(d) { if( x(d.elo) > 0 ) return x(d.elo); })
-      .style("fill", function(d){ return color_arr[d.game]; })
-      .each( function(d){ y0[d.id]; });
       
-  barUpdate.select(".value").duration(dur_all*0.75)
-      .attr("x", function(d) { return x(d.elo) + 10; })
-      .text(function(d) { return formatMoney(d.elo);  });
- 
-  
-  barUpdate.select(".label").duration(dur_all*0.75)
-      .attr("x", function(d) { return x(d.elo) - 10; })
-      .text(function(d) { 	  
-	  var age;
-	  if( d.bday === "" ) { age = " ? "; }
-	  else{
-	    var year = parseInt(d.bday.slice(0,4));
-	    var month = parseInt(d.bday.slice(5,2));
-	    var day = parseInt(d.bday.slice(8,2));
-	    age = today.getFullYear() - year;
-	    if (today.getMonth() < month || (today.getMonth() === month && today.getDate() < day)) {
-		age--;
-	    }
-	  }
-	  
-	  return d.name+" ("+age+")"; 
-	  })
-      .each(function(d) {
-	  if( twidth[d.name] === undefined )
-	    twidth[d.name] = this.getBBox().width;
-      });
+    barUpdate.ease("linear")
+	.attr("transform", function(d) { return "translate(0," + (y0[d.id] = y(d.id)) + ")"; })
+	.style("fill-opacity", 1);
+
+    barUpdate.select("rect").ease("linear")
+	.attr("width", function(d) { if( x(d.elo) > 0 ) return x(d.elo); })
+	.style("fill", function(d){ return color_arr[d.race]; })
+	.attr("y",0)
+	.attr("height", y.rangeBand())
+	.each( function(d){ y0[d.id]; });
+
+    barUpdate.select(".value").ease("linear")
+	.attr("x", function(d) { return x(d.elo) + 10; })
+	.attr("y", y.rangeBand() / 2);
+	//.text(function(d) { return parseInt(d.elo);  });
+	
+    barUpdate.selectAll(".value").transition().ease("quad-out").duration(dur_all*3).delay(0)
+	.tween("text", function(d) {
+	    var i = d3.interpolate(this.textContent, parseInt(d.elo));
+	    return function(t) {
+	      d3.select(this).text(parseInt(i(t)));
+	    };
+	});
+
+    barUpdate.select(".label").ease("linear")
+	.attr("x", function(d) { return x(d.elo) - 10; })
+	.attr("y", y.rangeBand() / 2)
+	.text(function(d) { 	  
+		if( d.bday === "-" )
+		    return d.nick+" (?)"; 
+		else
+		    return d.nick+" ("+cal_age(d.bday)+")"; 
+	    })
+	.each(function(d) {
+	    if( twidth[d.id] === undefined )
+	      twidth[d.id] = this.getBBox().width;
+	});
+	
+    barUpdate.select(".win")
+      .attr("x", function(d) { return x(d.elo) + 100; })
+      .attr("y", y.rangeBand() / 2)
+      .text(function(d) { return (new String(d.win))+" - "+d.lose;  });
       
-  var barImage = barUpdate.select(".image").duration(dur_all*0.75)
-      .attr("x", function(d) { return x(d.elo) - twidth[d.name] - 110; })
-      .attr("xlink:href", function(d) {return "logos/"+removeColon(d.game)+".png";})
-      .attr("preserveAspectRatio","none");
+    d3.transition(svg).select(".x.axis").ease("linear")
+	.call(xAxis);
       
+    var barImage = barUpdate.select(".image")
+	.attr("x", function(d) { return x(d.elo) - twidth[d.id] - 100; })
+	.attr("y", 2 )
+	.attr("xlink:href", function(d) {
+	    return "race/"+d.race+".png";
+	});
+	
+    if( fame === 1 ){
+	svg.select(".peak").transition().duration(dur_all*1.5).ease("linear")
+	    .attr("x", x(2440));
+    }
+   
+    
   var barExit = d3.transition(bar.exit());
   
   barExit
       //.attr("transform", function(d) { return "translate(0," + (y0[d.id] + height) + ")"; })
-      .style("fill-opacity", 0)
-      .remove();
+      //.style("fill-opacity", 1)
+      .attr("y", height+margin.bottom+margin.top);
   
   barExit.select("rect")
-      .attr("width", function(d) { if( x(d.elo) > 0 ) return x(d.elo); });
+    .attr("y",height+margin.bottom+margin.top)
+    .attr("width", 0 );
 
   barExit.select(".value")
-      .attr("x", function(d) { return x(d.elo) - 3; })
-      .text(function(d) { return format(d.elo); });
+      .attr("y", height+margin.bottom+margin.top)
+      .attr("x", 0);
+      //.text(function(d) { return format(d.score); });
       
   barExit.select(".label")
-      .attr("x", function(d) { return x(d.elo) - 10; });
+	.attr("y", height+margin.bottom+margin.top)
+	.attr("x", 0);
+
+  barExit.select(".win")
+      .attr("y", height+margin.bottom+margin.top)
+      .attr("x", 0 )
+      .text(function(d) { return (new String(d.win))+" - "+d.lose;  });
       
   barExit.select(".image")
-      //.attr("width", function(d) { return -150; })
-      .remove();
-
-  d3.transition(svg).duration(dur_all)
-	  .select(".x.axis")
-      .call(xAxis);
-      
-  bar.moveToFront();
+	.attr("x", 0 )
+      .attr("y", height+margin.bottom+margin.top);
   
+  var transaxis = svg.select(".x.axis").moveToBack();
+  //bar.moveToFront();
+  barEnter.moveToFront();
+  
+  /*
   var flag = document.getElementById("pic");
   flag.src = "pic/"+top[0].id+".jpg";
-  flag = document.getElementById("flag2");
-  flag.src = "logos/"+removeColon(top[0].game)+".png";
-  flag = document.getElementById("flag3");
-  flag.src = "flags/"+top[0].country+".png";
   
   var date = document.getElementById("date");
   date.textContent = strDate(today);
   
-    var age;
-      if( top[0].bday === "-" ) { age = "?"; }
-      else{
-	var year = parseInt(top[0].bday.slice(0,4));
-	var month = parseInt(top[0].bday.slice(5,2));
-	var day = parseInt(top[0].bday.slice(8,2));
-	age = today.getFullYear() - year;
-	if (today.getMonth() < month || (today.getMonth() == month && today.getDate() < day)) {
-	    age--;
-	}
-      }
+  document.getElementById("game").textContent = name_arr[top[0].console];
+  document.getElementById("country").textContent = formattitle(top[0].develop);
+  document.getElementById("total").textContent = formattitle(top[0].title) + " ("+top[0].age+")";
+  document.getElementById("streak").textContent = formatMoney(top[0].weekly);
+  document.getElementById("name").textContent = formatMoney(top[0].total);
+  */
   
-  document.getElementById("name").textContent = top[0].name + " ("+age+")";
-  document.getElementById("country").textContent = top[0].country;
-  document.getElementById("game").textContent = top[0].game;
-  document.getElementById("total").textContent = "total $ "+formatMoney(top[0].elo);
+  if( fame === 0 ){
+    if( top[0].id === previous ){
+	streak++;
+	board.select(".streak")
+	  .text("for "+streak+" days");
+    }
+    else{
+	previous = top[0].id;
+	streak = 1;
+	board.select(".streak")
+	  .text("for "+streak+" day");
+    }
+  }
   
+  board.select(".alltime")
+    .text("("+top[0].streak+")");
+ 
+  board.select(".date")
+    .text(DisplayDate(today));
+    
+  board.select(".flag")
+    .attr("xlink:href", "race/"+top[0].race+".png");
+    
+  board.select(".nat")
+    .moveToBack()
+    .text(name_arr[top[0].race]);
+    
+  board.select(".name")
+    .moveToBack()
+    .text(top[0].nick);
   
-  var str = document.getElementById("streak");
-  str.textContent = "from "+top[0].from+" tournaments";
+  if( top[0].bday === '-' ){
+    board.select(".nick")
+      .moveToBack()
+      .text(top[0].name + " (?)");
+  }
+  else{
+    board.select(".nick")
+      .moveToBack()
+      .text(top[0].name + " ("+cal_age(top[0].bday)+")");
+  }
+    
+    /*
+  if( streak[top[0].id] !== 1 ){
+      board.select(".streak")
+//	.style("fill", d3.rgb(255, 255-(streak/20), +255-(streak/20)))
+	.text("for "+streak[top[0].id]+" days");
+  }
+  else{
+      board.select(".streak")
+	.text("for "+streak[top[0].id]+" day");
+  }
+  previous = top[0].id;*/
   
+  board.select(".picture")
+    .attr("preserveAspectRatio","xMidYMid")
+    .attr("xlink:href", "pic/"+removeColon(top[0].id)+".jpg");
+ 
   back.moveToFront();
   for(i=0;i<10;i++){
       nst[i].moveToFront();
-    }
-    
-    renew = [];
-    for(i=0;i<10;i++){
-	renew.push(top[i].id);
-	previous[i] = top[i];
-    }
-    
-    newday.setDate(newday.getDate()+1);
-    daystr = formatDate(newday);
+      renew.push(top[i].id);
+  }
 }
 
 function formatDate(date) {
@@ -522,12 +875,16 @@ function formatDate(date) {
 
 function strDate(date){
     var d = new Date(date),
-        str = d.toDateString(),
-        month = str.slice(4, 7),
-	day = str.slice(8, 10),
-	year = str.slice(11,15);
+        month = d.getMonth()+1,
+	day = d.getDate(),
+	year = d.getFullYear();
 
-    return day+" "+month+" "+year;
+    if( day < 10 )
+	day = "0"+day;
+    if( month < 10)
+	month = "0"+month;
+	
+    return ""+year+"-"+month+"-"+day;
 }
 
 function reverseString(str) {
@@ -559,20 +916,57 @@ function removeColon(game){
     var i = 0,
 	e = 0;
     while(i < game.length ){ 
-	if( game[i] === ' ' || game[i] === ':'){
-	    e = 1;
-	    break;
+	if( game[i] === ':'){
+	    tem = game.slice(0,i);
+	    e = i+1;
 	}
-	
 	i++;
     }
-    
-    if( e === 1 )
-	tem = game.slice(0,i);
+    if( e > 0 ) 
+	tem += game.slice(e,i);
     else
 	tem = game;
     
     return tem;
 }
 
+function formattitle(title){
+    var tem;
+    if( title.length > 23 ){
+	tem = title.slice(0, 20);
+	tem += "...";
+    }
+    else
+	tem = title;
+    
+    return tem;
+}
+
+function cal_age(bday){
+    var b_day = new Date(bday);
+    var age;
+    var year = b_day.getFullYear();
+    var month = b_day.getMonth();
+    var day = b_day.getDate();
+    age = today.getFullYear() - year;
+    if (today.getMonth() < month || (today.getMonth() === month && today.getDate() < day)) {
+	age--;
+    }
+    
+    return age;
+}
+
+function DisplayDate(date){
+    var d = new Date(date),
+        str = d.toDateString(),
+        month = str.slice(4, 7),
+	day = str.slice(8, 10),
+	year = str.slice(11,15);
+
+    return day+" "+month+" "+year;
+}
+
+function daydiff(first, second) {
+    return Math.round((second-first)/(1000*60*60*24));
+}
 </script>
