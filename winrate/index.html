@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html>
+<title>Starcraft winrate for each race</title>
+<style>
+
+//@import url(https://bost.ocks.org/mike/style.css?aea6f0a);
+
+.html .value,
+.javascript .string,
+.javascript .regexp {
+  color: #756bb1;
+}
+
+.html .tag,
+.css .tag,
+.javascript .keyword {
+  color: #3182bd;
+}
+
+.comment {
+  color: #636363;
+}
+
+.html .doctype,
+.javascript .number {
+  color: #31a354;
+}
+
+.html .attribute,
+.css .attribute,
+.javascript .class,
+.javascript .special {
+  color: #e6550d;
+}
+
+svg {
+  font: Bold 30px Arial Narrow;
+  padding-left: 70px;
+  padding-top: 30px;
+  background-color: black;
+}
+
+sup, sub {
+  line-height: 0;
+}
+
+blockquote q {
+  line-height: 1.5em;
+  display: inline;
+}
+
+blockquote q:before,
+blockquote q:after {
+  content: "";
+}
+
+.value {
+  font: Bold 30px Arial;
+  fill: white;
+}
+
+.y.axis path {
+  stroke: black;
+}
+
+.date{
+    fill: white;
+    font: bold 80px Hind;
+}
+
+.picture{
+    object-fit: cover;
+    height: 190px;
+}
+
+.streak{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.peak{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.alltime{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.nat{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.name{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.nick{
+    fill: white;
+    font: Bold 30px Hind;
+}
+
+.forward{
+    fill: red;
+    font: Bold 30px Hind;
+}
+
+.win{
+    font: 25px Arial Narrow;
+    fill: white;
+}
+
+.label1{
+    font: 35px Hind;
+}
+
+.label2{
+    font: 35px Hind;
+}
+
+.label3{
+    font: 35px Hind;
+}
+
+.ylabel1{
+    font: 35px Hind;
+}
+
+.ylabel2{
+    font: 35px Hind;
+}
+
+.ylabel3{
+    font: 35px Hind;
+}
+
+path{
+    stroke: white;
+    stroke-width: 2;
+}  
+
+</style>
+
+<p id="chart" style="margin-top: 0px">
+
+<div class="btn-group">
+    <button type="button" class="btn btn-primary" onclick=auto()>Next</button>
+</div>
+
+<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+<script>
+    d3.selection.prototype.moveToFront = function() {
+	return this.each(function(){
+	    this.parentNode.appendChild(this);
+	});
+    };
+    d3.selection.prototype.moveToBack = function() {  
+        return this.each(function() { 
+            var firstChild = this.parentNode.firstChild; 
+            if (firstChild) { 
+                this.parentNode.insertBefore(this, firstChild); 
+            } 
+        });
+    };
+
+
+// national indexes
+var color_arr = [];
+    color_arr[0] = "#2196F3";
+    color_arr[1] = "#F57C00";
+    color_arr[2] = "#009688";
+    
+var name_arr = [];
+    name_arr[0] = "Terran";
+    name_arr[1] = "Zerg";
+    name_arr[2] = "Protoss";
+
+var margin = {top: 165, right: 40, bottom: 10, left: 40},
+    width = 1000,
+    height = 650 - margin.top - margin.bottom;
+
+var format = d3.format(".1%"),
+    record, 
+    ch = 58,
+    player;
+  
+var svg = d3.select("#chart").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .style("margin-left", -margin.left + "px")
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+/////////////////////////////////////////////////////////////////////////////
+// Upboard
+    
+var board = d3.select("#chart").select("svg").append("g")
+	.attr("class", "board")
+	.attr("transform", "translate(" + margin.left + "," + 0 + ")");
+/*
+board.append("rect")
+     .attr("x", width-430)
+     .attr("y",-100)
+     .attr("height", 200)
+     .attr("width", 430)
+     .style("fill","black");
+*/
+board.append("text")
+	.attr("x", width )
+	.attr("y", 5)
+	.attr("text-anchor", "end")
+	.text("starcraft winrate for each race on")
+	.style("fill", "white")
+	.style("font" ,"bold 30px Arial Narrow");
+
+board.append("text")
+	.attr("class","date")
+	.attr("x", width+10 )
+	.attr("y", 75)
+	.attr("text-anchor", "end");
+
+board.append("svg:image")
+	.attr("class","flag")
+	.attr("x", -60+100)
+	.attr("y", -25)
+	.attr("height", 30);
+
+board.append("text")
+	.attr("class","nat")
+	.attr("x", -60+100+35)
+	.attr("y", 0);
+
+board.append("text")
+	.attr("class","name")
+	.attr("x", -60+100)
+	.attr("y", 35);
+/*
+board.append("text")
+	.attr("class","nick")
+	.attr("x", -60+195)
+	.attr("y", 75);
+
+board.append("text")
+	.attr("x", -60+195)
+	.attr("y", 110)
+	.text("#1 Starcraft Player")
+	.style("fill", "white")
+	.style("font" ,"bold 30px Hind");
+*/
+board.append("text")
+	.attr("class","streak")
+	.attr("x", -60+100)
+	.attr("y", 70);
+
+board.append("text")
+	.attr("class","alltime")
+	.attr("x", -60+100+220)
+	.attr("y", 70);
+
+board.append("svg:image")
+	.attr("class","picture")
+	.attr("x", -70)
+	.attr("y", -70)
+	.attr("width", 100)
+	.attr("hieght", 100);
+
+board.append("text")
+	.attr("class","forward")
+	.attr("x", width)
+	.attr("y", 110)
+	.attr("text-anchor", "end")
+	.style("fill","none")
+	.text("Fast Forward >>");
+
+////////////////////////////////////////////////////////////////////////
+
+var MAX_PLAYER = 1456;
+var today = new Date(1999, 8, 25);
+var midx, yidx;
+var first = 1;
+/*
+var header = d3.select("#right")
+	.attr("width",width-390);
+*/
+document.body.style.backgroundColor = "black";
+
+var sync;
+var renew = [];
+var DUR = 500;
+var dur_all = 40;
+
+var player = {};
+
+d3.tsv("SC_players.tsv", function(data) {
+   // make everyone's score -1
+   
+   var temp = {};
+   for(var i=0;i<MAX_PLAYER;i++){
+       data[i].elo = -1;
+       data[i].peak = -1;
+       data[i].win = 0;
+       data[i].lose = 0;
+       data[i].streak = 0;
+       data[i].p_str = 0;
+       
+       if(data[i].bday !== '-')
+	    data[i].bday = new Date(data[i].bday);
+       
+       temp[data[i].id.toString()] = data[i];
+   }
+   player = temp;
+   
+   clearTimeout(sync);
+});
+
+d3.tsv("SC_matches.tsv", function(data) {
+   record = data;
+   midx = record.length-1;
+   yidx = record.length-1;
+   
+   sync = setTimeout( change(), 100000 );
+});
+
+function change() {
+  d3.transition()
+      .duration(dur_all*1.5)
+  //    .ease("linear")
+      .each(redraw);
+}
+
+var fame = 0;
+
+var interv;
+function auto(){
+    interv = setInterval(function(){
+	today.setDate(today.getDate()+1);
+
+	if( today.getFullYear() === 2012 &&
+	    today.getMonth() === 7 &&
+	    today.getDate() === 4 ){
+	    // after action
+	
+	    today.setDate(today.getDate()-1);
+	
+	    
+	    
+	    clearInterval(interv);
+	    return;
+	}
+	
+	/*
+	// Fast Forward 2011 Sep 18 ~ 2011 Nov 25
+	if( today.getFullYear() === 2011 &&
+	    today.getMonth() === 8 &&
+	    today.getDate() === 18 ){
+	    board.select(".forward")
+		.style("fill","red");
+	    clearInterval(interv);
+	    dur_all = dur_all/10;
+	    auto();
+	}
+	
+	if( today.getFullYear() === 2011 &&
+	    today.getMonth() === 10 &&
+	    today.getDate() === 25 ){
+	    board.select(".forward")
+		.style("fill","none");
+	    clearInterval(interv);
+	    dur_all = dur_all*10;
+	    auto();
+	}*/
+
+	change();
+}, dur_all);}
+
+var first = 0;
+var twidth = {};
+var streak;
+var previous;
+
+var winrate = [];
+winrate[0] = [];    // tz
+winrate[1] = [];    // tp
+winrate[2] = [];    // zp
+
+winrate[0][0] = {};
+winrate[0][0].race = 0;
+winrate[0][0].win  = 0;
+winrate[0][0].lose = 0;
+winrate[0][0].ywin = 0;
+winrate[0][0].ylose = 0;
+winrate[0][1] = {};
+winrate[0][1].race = 1;
+winrate[0][1].win  = 0;
+winrate[0][1].lose = 0;
+winrate[0][1].ywin = 0;
+winrate[0][1].ylose = 0;
+
+winrate[1][0] = {};
+winrate[1][0].race = 0;
+winrate[1][0].win  = 0;
+winrate[1][0].lose = 0;
+winrate[1][0].ywin = 0;
+winrate[1][0].ylose = 0;
+winrate[1][1] = {};
+winrate[1][1].race = 2;
+winrate[1][1].win  = 0;
+winrate[1][1].lose = 0;
+winrate[1][1].ywin = 0;
+winrate[1][1].ylose = 0;
+
+winrate[2][0] = {};
+winrate[2][0].race = 1;
+winrate[2][0].win  = 0;
+winrate[2][0].lose = 0;
+winrate[2][0].ywin = 0;
+winrate[2][0].ylose = 0;
+winrate[2][1] = {};
+winrate[2][1].race = 2;
+winrate[2][1].win  = 0;
+winrate[2][1].lose = 0;
+winrate[2][1].ywin = 0;
+winrate[2][1].ylose = 0;
+
+var wid = 250,
+    hei = 250,
+    radius = Math.min(wid, hei) / 2;
+
+var pief = d3.pie()
+    .sort(function(a, b){ return a.race > b.race; })
+    .value(function(d) { return d.win / (d.win+d.lose); });
+    
+var piey = d3.pie()
+    .sort(function(a, b){ return a.race > b.race; })
+    .value(function(d) { return (d.win - d.ywin) / ((d.win - d.ywin)+(d.lose - d.ylose)); });    
+
+var path = d3.arc()
+    .outerRadius(radius - 10)
+    .innerRadius(0);
+
+var label = d3.arc()
+    .innerRadius(2 * radius / 3)
+    .outerRadius(radius);
+
+function redraw() { 
+    // a year before
+    var yday = new Date(today);
+    yday.setDate(yday.getDate()-365);
+    
+    // each day
+    if( record[midx] !== undefined ){ 
+	while( record[midx].date === strDate(today) ){
+	    var w = record[midx].win.toString();
+	    var l = record[midx].lose.toString();
+
+	    if( player[w] === undefined || player[l] === undefined ){
+		midx--;
+		continue;
+	    }
+
+	    if( player[w].elo === -1 ){
+	       player[w].elo = 2000;
+	    }
+
+	    if( player[l].elo === -1 ){
+		player[l].elo = 2000;
+	    }
+	    player[w].win++;
+	    player[l].lose++;
+
+
+	    // K is 10 at all rating
+	    var K1, K2;
+	    if( player[w].elo < 2050 )
+		K1 = 20;
+	    else if( player[w].elo < 2100 )
+		K1 = 17;
+	    else if( player[w].elo < 2150 )
+		K1 = 14;
+	    else if( player[w].elo < 2200 )
+		K1 = 12;
+	    else if( player[w].elo < 2250 )
+		K1 = 11;
+	    else
+		K1 = 10;
+	    
+	    if( player[l].elo < 2050 )
+		K2 = 20;
+	    else if( player[l].elo < 2100 )
+		K2 = 17;
+	    else if( player[l].elo < 2150 )
+		K2 = 14;
+	    else if( player[l].elo < 2200 )
+		K2 = 12;
+	    else if( player[l].elo < 2250 )
+		K2 = 11;
+	    else
+		K2 = 10;
+	    
+	    var r1 = Math.pow(10,player[w].elo/400);
+	    var r2 = Math.pow(10,player[l].elo/400);
+
+	    var e1 = r1 / (r1 + r2);
+	    var e2 = r2 / (r1 + r2);
+
+	    player[w].elo = player[w].elo + K1*(1 - e1);
+	    player[l].elo = player[l].elo + K2*(0 - e2);
+
+	    if( player[w].elo > player[w].peak )
+		player[w].peak = player[w].elo;
+	    if( player[l].elo > player[l].peak )
+		player[l].peak = player[l].elo;
+
+	    // win-lose by race
+	    if( player[w].race === '0' && player[l].race === '1' ){
+		winrate[0][0].win++;	winrate[0][1].lose++;
+	    }
+	    else if( player[w].race === '1' && player[l].race === '0' ){
+		winrate[0][1].win++;	winrate[0][0].lose++;
+	    }
+	    else if( player[w].race === '0' && player[l].race === '2' ){
+		winrate[1][0].win++;	winrate[1][1].lose++;
+	    }
+	    else if( player[w].race === '2' && player[l].race === '0' ){
+		winrate[1][1].win++;	winrate[1][0].lose++;
+	    }
+	    else if( player[w].race === '1' && player[l].race === '2' ){
+		winrate[2][0].win++;	winrate[2][1].lose++;
+	    }
+	    else if( player[w].race === '2' && player[l].race === '1' ){
+		winrate[2][1].win++;	winrate[2][0].lose++;
+	    }
+
+	    midx--;
+	    if( !renew.includes(w) )
+		renew.push(w);
+	    if( !renew.includes(l) )
+		renew.push(l);
+	}
+	
+	while( record[yidx].date === strDate(yday) ){
+	    var w = record[yidx].win.toString();
+	    var l = record[yidx].lose.toString();
+
+	    if( player[w] === undefined || player[l] === undefined ){
+		yidx--;
+		continue;
+	    }
+	    
+	    // win-lose by race
+	    if( player[w].race === '0' && player[l].race === '1' ){
+		winrate[0][0].ywin++;	winrate[0][1].ylose++;
+	    }
+	    else if( player[w].race === '1' && player[l].race === '0' ){
+		winrate[0][1].ywin++;	winrate[0][0].ylose++;
+	    }
+	    else if( player[w].race === '0' && player[l].race === '2' ){
+		winrate[1][0].ywin++;	winrate[1][1].ylose++;
+	    }
+	    else if( player[w].race === '2' && player[l].race === '0' ){
+		winrate[1][1].ywin++;	winrate[1][0].ylose++;
+	    }
+	    else if( player[w].race === '1' && player[l].race === '2' ){
+		winrate[2][0].ywin++;	winrate[2][1].ylose++;
+	    }
+	    else if( player[w].race === '2' && player[l].race === '1' ){
+		winrate[2][1].ywin++;	winrate[2][0].ylose++;
+	    }
+	    
+	    yidx--;
+	}
+    }
+    
+    var top = [];
+    
+    for(i=0;i<renew.length;i++){
+	top.push(player[renew[i]]);
+    }
+    renew = [];
+    
+    top = top.sort(function(a, b) { 
+	return b.elo - a.elo; 
+    }).slice(0, 10);
+  
+    var max = top[0].elo;	var min = top[9<(top.length-1)?9:(top.length-1)].elo; 
+    if( max < min+7 )
+	min = max-7;
+    //var cor = top[0].record/top[1].record;
+  
+    ////////////////////////////////////////////////////
+    // pie
+  
+    if( !first ){
+	var arcs = svg.selectAll(".arc1")
+	    .data(pief(winrate[0]))
+	    .enter().append("g")
+	    .attr("class", "arc1")
+	    .attr("transform", "translate (250, 40)");
+
+	arcs.append("path")
+	    .attr("class", "pat1")
+	    .attr("d", path)
+	    .attr("fill", function(d) { return color_arr[d.data.race]; });
+	
+	arcs.append("text")
+	    .attr("class", "label1")
+	    .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+	    .attr("dy", "0.35em")
+	    .attr("text-anchor", function(d, i){ 
+		if( i === 0 )
+		    return "end"; 
+	    })
+	    .text(function(d) { return format(d.value); });
+    
+	arcs = svg.selectAll(".arc2")
+	    .data(pief(winrate[1]))
+	    .enter().append("g")
+	    .attr("class", "arc2")
+	    .attr("transform", "translate (520, 40)");
+
+	arcs.append("path")
+	    .attr("class", "pat2")
+	    .attr("d", path)
+	    .attr("fill", function(d) { return color_arr[d.data.race]; });
+	
+	arcs.append("text")
+	    .attr("class", "label2")
+	    .attr("transform", function(d) { 
+		    return "translate(" + label.centroid(d) + ")"; 
+	    })
+	    .attr("dy", "0.35em")
+	    .attr("text-anchor", function(d, i){ 
+		if( i === 1 )
+		    return "end"; 
+	    })
+	    .text(function(d) { 
+		if ( d.value !== 0 )
+		    return format(d.value); 
+	    });
+    
+	arcs = svg.selectAll(".arc3")
+	    .data(pief(winrate[2]))
+	    .enter().append("g")
+	    .attr("class", "arc3")
+	    .attr("transform", "translate (790, 40)");
+
+	arcs.append("path")
+	    .attr("class", "pat3")
+	    .attr("d", path)
+	    .attr("fill", function(d) { return color_arr[d.data.race]; });
+	
+	arcs.append("text")
+	    .attr("class", "label3")
+	    .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+	    .attr("dy", "0.35em")
+	    .attr("text-anchor", function(d, i){ 
+		if( i === 1 )
+		    return "end"; 
+	    })
+	    .text(function(d) { return format(d.value); });
+	/*
+	arcs.append("svg:image")
+	    .attr("class", "logo")
+	    .attr("height", 30)
+	    .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+	    .attr("xlink:href", function(d) {return "race/"+d.data.race+".png";});*/
+	
+	// win-lose
+	svg.append("text")
+	    .attr("class", "w_l1")
+	    .attr("x", 250)
+	    .attr("y", 190)
+	    .attr("text-anchor", "middle")
+	    .style("fill","white");
+    
+	svg.append("text")
+	    .attr("class", "w_l2")
+	    .attr("x", 520)
+	    .attr("y", 190)
+	    .attr("text-anchor", "middle")
+	    .style("fill","white");
+    
+	svg.append("text")
+	    .attr("class", "w_l3")
+	    .attr("x", 790)
+	    .attr("y", 190)
+	    .attr("text-anchor", "middle")
+	    .style("fill","white");
+    
+	svg.append("line")
+	    .attr("x1", -500)
+	    .attr("y1", 200)
+	    .attr("x2", 1500)
+	    .attr("y2", 200)
+	    .style("stroke-width","1")
+	    .style("stroke","white");
+    
+	svg.append("text")
+	    .attr("x", -65)
+	    .attr("y", -35)
+	    .style("font", "bold 40px Hind")
+	    .style("fill","white")
+	    .text("All-time");
+    
+	svg.append("text")
+	    .attr("class", "a-match")
+	    .attr("x", -65)
+	    .attr("y", 15)
+	    .style("font", "bold 40px Hind")
+	    .style("fill","white");
+    
+	svg.append("text")
+	    .attr("x", -65)
+	    .attr("y", 65)
+	    .style("font", "bold 40px Hind")
+	    .style("fill","white")
+	    .text("matches");
+    
+    
+	// year before
+	arcs = svg.selectAll(".yarc1")
+	    .data(piey(winrate[0]))
+	    .enter().append("g")
+	    .attr("class", "yarc1")
+	    .attr("transform", "translate (250, 320)");
+
+	arcs.append("path")
+	    .attr("class", "ypat1")
+	    .attr("d", path)
+	    .attr("fill", function(d) { return color_arr[d.data.race]; });
+	
+	arcs.append("text")
+	    .attr("class", "ylabel1")
+	    .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+	    .attr("dy", "0.35em")
+	    .attr("text-anchor", function(d, i){ 
+		if( i === 0 )
+		    return "end"; 
+	    })
+	    .text(function(d) { return format(d.value); });
+    
+	arcs = svg.selectAll(".yarc2")
+	    .data(piey(winrate[1]))
+	    .enter().append("g")
+	    .attr("class", "yarc2")
+	    .attr("transform", "translate (520, 320)");
+
+	arcs.append("path")
+	    .attr("class", "ypat2")
+	    .attr("d", path)
+	    .attr("fill", function(d) { return color_arr[d.data.race]; });
+	
+	arcs.append("text")
+	    .attr("class", "ylabel2")
+	    .attr("transform", function(d) { 
+		    return "translate(" + label.centroid(d) + ")"; 
+	    })
+	    .attr("dy", "0.35em")
+	    .attr("text-anchor", function(d, i){ 
+		if( i === 1 )
+		    return "end"; 
+	    })
+	    .text(function(d) { 
+		if ( d.value !== 0 )
+		    return format(d.value); 
+	    });
+    
+	arcs = svg.selectAll(".yarc3")
+	    .data(piey(winrate[2]))
+	    .enter().append("g")
+	    .attr("class", "yarc3")
+	    .attr("transform", "translate (790, 320)");
+
+	arcs.append("path")
+	    .attr("class", "ypat3")
+	    .attr("d", path)
+	    .attr("fill", function(d) { return color_arr[d.data.race]; });
+	
+	arcs.append("text")
+	    .attr("class", "ylabel3")
+	    .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+	    .attr("dy", "0.35em")
+	    .attr("text-anchor", function(d, i){ 
+		if( i === 1 )
+		    return "end"; 
+	    })
+	    .text(function(d) { return format(d.value); });
+	/*
+	arcs.append("svg:image")
+	    .attr("class", "logo")
+	    .attr("height", 30)
+	    .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+	    .attr("xlink:href", function(d) {return "race/"+d.data.race+".png";});*/
+	
+	// win-lose
+	svg.append("text")
+	    .attr("class", "yw_l1")
+	    .attr("x", 250)
+	    .attr("y", 470)
+	    .attr("text-anchor", "middle")
+	    .style("fill","white");
+    
+	svg.append("text")
+	    .attr("class", "yw_l2")
+	    .attr("x", 520)
+	    .attr("y", 470)
+	    .attr("text-anchor", "middle")
+	    .style("fill","white");
+    
+	svg.append("text")
+	    .attr("class", "yw_l3")
+	    .attr("x", 790)
+	    .attr("y", 470)
+	    .attr("text-anchor", "middle")
+	    .style("fill","white");
+    
+	svg.append("text")
+	    .attr("x", -65)
+	    .attr("y", 250)
+	    .style("font", "bold 40px Hind")
+	    .style("fill","white")
+	    .text("Last a year");
+    
+	svg.append("text")
+	    .attr("class", "y-match")
+	    .attr("x", -65)
+	    .attr("y", 300)
+	    .style("font", "bold 40px Hind")
+	    .style("fill","white");
+    
+	svg.append("text")
+	    .attr("x", -65)
+	    .attr("y", 350)
+	    .style("font", "bold 40px Hind")
+	    .style("fill","white")
+	    .text("matches");
+	
+    
+	first = 1;
+    }
+    
+    var pie = d3.pie()
+	.sort(function(a, b){ return a.race < b.race; })
+	.value(function(d) { return d.win / (d.win+d.lose); })(winrate[0]);
+
+    var paths = svg.selectAll(".pat1").data(pie); // Compute the new angles
+    paths.transition().duration(dur_all*2).attrTween("d", arcTween); // redrawing the path
+
+    svg.selectAll(".label1").data(pie).transition().duration(dur_all*2)
+	.text(function(d) { return format(d.value); })
+	.attr("text-anchor", function(d, i){ 
+	    if( i === 1 )
+		return "end"; 
+	})
+	.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; });
+
+    svg.select(".w_l1")
+	.text( function(){
+	    return ""+winrate[0][0].win+" - "+winrate[0][1].win;
+	});
+
+
+    pie = d3.pie()
+	.sort(function(a, b){ return a.race < b.race; })
+	.value(function(d) { return d.win / (d.win+d.lose); })(winrate[1]);
+
+    paths = svg.selectAll(".pat2").data(pie); // Compute the new angles
+    paths.transition().duration(dur_all*2).attrTween("d", arcTween); // redrawing the path
+
+    svg.selectAll(".label2").data(pie).transition().duration(dur_all*2)
+	.text(function(d) { 
+	    if ( d.value !== 0 )
+		return format(d.value); 
+	})
+	.attr("text-anchor", function(d, i){
+	    if( i === 1 ){ 
+		return "end"; 
+	    }
+	})
+	.attr("transform", function(d) { 
+	    if ( d.value === 1 )
+		return "translate(-40, 0)";
+	    else
+		return "translate(" + label.centroid(d) + ")"; 
+	});
+	
+    svg.select(".w_l2")
+	.text( function(){
+	    return ""+winrate[1][0].win+" - "+winrate[1][1].win;
+	});
+
+    pie = d3.pie()
+	.sort(function(a, b){ return a.race < b.race; })
+	.value(function(d) { return d.win / (d.win+d.lose); })(winrate[2]);
+
+    paths = svg.selectAll(".pat3").data(pie); // Compute the new angles
+    paths.transition().duration(dur_all*2).attrTween("d", arcTween); // redrawing the path
+
+    svg.selectAll(".label3").data(pie).transition().duration(dur_all*2)
+	.text(function(d) { return format(d.value); })
+	.attr("text-anchor", function(d, i){ 
+	    if( i === 1 )
+		return "end"; 
+	})
+	.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; });
+
+    svg.select(".w_l3")
+	.text( function(){
+	    return ""+winrate[2][0].win+" - "+winrate[2][1].win;
+	});
+
+  /*
+    svg.selectAll(".logo")
+	.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; });*/
+	
+    pie = d3.pie()
+	.sort(function(a, b){ return a.race < b.race; })
+	.value(function(d) { return (d.win - d.ywin) / ((d.win - d.ywin)+(d.lose - d.ylose)); })(winrate[0]);
+
+    var paths = svg.selectAll(".ypat1").data(pie); // Compute the new angles
+    paths.transition().duration(dur_all*2).attrTween("d", arcTween); // redrawing the path
+
+    svg.selectAll(".ylabel1").data(pie).transition().duration(dur_all*2)
+	.text(function(d) { return format(d.value); })
+	.attr("text-anchor", function(d, i){ 
+	    if( i === 1 )
+		return "end"; 
+	})
+	.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; });
+
+    svg.select(".yw_l1")
+	.text( function(){
+	    return ""+ (winrate[0][0].win - winrate[0][0].ywin) +" - "+(winrate[0][1].win - winrate[0][1].ywin);
+	});
+
+
+    pie = d3.pie()
+	.sort(function(a, b){ return a.race < b.race; })
+	.value(function(d) { return (d.win - d.ywin) / ((d.win - d.ywin)+(d.lose - d.ylose)); })(winrate[1]);
+
+    paths = svg.selectAll(".ypat2").data(pie); // Compute the new angles
+    paths.transition().duration(dur_all*2).attrTween("d", arcTween); // redrawing the path
+
+    svg.selectAll(".ylabel2").data(pie).transition().duration(dur_all*2)
+	.text(function(d) { 
+	    if ( d.value !== 0 )
+		return format(d.value); 
+	})
+	.attr("text-anchor", function(d, i){
+	    if( i === 1 ){ 
+		return "end"; 
+	    }
+	})
+	.attr("transform", function(d) { 
+	    if ( d.value === 1 )
+		return "translate(-40, 0)";
+	    else
+		return "translate(" + label.centroid(d) + ")"; 
+	});
+	
+    svg.select(".yw_l2")
+	.text( function(){
+	    return ""+(winrate[1][0].win - winrate[1][0].ywin) +" - "+(winrate[1][1].win - winrate[1][1].ywin);
+	});
+
+    pie = d3.pie()
+	.sort(function(a, b){ return a.race < b.race; })
+	.value(function(d) { return (d.win - d.ywin) / ((d.win - d.ywin)+(d.lose - d.ylose)); })(winrate[2]);
+
+    paths = svg.selectAll(".ypat3").data(pie); // Compute the new angles
+    paths.transition().duration(dur_all*2).attrTween("d", arcTween); // redrawing the path
+
+    svg.selectAll(".ylabel3").data(pie).transition().duration(dur_all*2)
+	.text(function(d) { return format(d.value); })
+	.attr("text-anchor", function(d, i){ 
+	    if( i === 1 )
+		return "end"; 
+	})
+	.attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; });
+
+    svg.select(".yw_l3")
+	.text( function(){
+	    return ""+(winrate[2][0].win - winrate[2][0].ywin) +" - "+(winrate[2][1].win - winrate[2][1].ywin);
+	});
+	
+	
+    svg.select(".a-match")
+	.text(function(){
+	    return winrate[0][0].win + winrate[0][1].win + winrate[1][0].win + winrate[1][1].win 
+	    + winrate[2][0].win + winrate[2][1].win;
+    });
+    
+    svg.select(".y-match")
+	.text(function(){
+	    var sum = 0;
+	    for(var i=0;i<3;i++)
+		for(var j=0;j<2;j++)
+		    sum += (winrate[i][j].win - winrate[i][j].ywin);
+	    
+	    return sum;
+    });
+   
+    ////////////////////////////////////////////////////
+    if( fame === 0 ){
+	top[0].streak++;
+    }
+  
+  if( fame === 0 ){
+    if( top[0].id === previous ){
+	streak++;
+	board.select(".streak")
+	  .text("#1 for "+streak+" days");
+    }
+    else{
+	previous = top[0].id;
+	streak = 1;
+	board.select(".streak")
+	  .text("#1 for "+streak+" day");
+    }
+  }
+  
+  board.select(".alltime")
+    .text("("+top[0].streak+")");
+ 
+  board.select(".date")
+    .text(DisplayDate(today));
+    
+  board.select(".flag")
+    .attr("xlink:href", "race/"+top[0].race+".png");
+    
+  board.select(".nat")
+    .moveToBack()
+    .text(name_arr[top[0].race]);
+    
+  board.select(".name")
+    .moveToBack()
+    .text(top[0].nick +" ("+parseInt(top[0].elo)+")");
+  
+  /*
+  board.select(".name").transition().ease("quad-out").duration(dur_all*3).delay(0)
+    .tween("text", function() {
+	var i = d3.interpolate(this.textContent, parseInt(top[0].elo));
+	return function(t) {
+	  d3.select(this).text( top[0].nick +" ("+parseInt(i(t))+")" );
+	};
+    });*/
+  
+  if( top[0].bday === '-' ){
+    board.select(".nick")
+      .moveToBack()
+      .text(top[0].name + " (?)");
+  }
+  else{
+    board.select(".nick")
+      .moveToBack()
+      .text(top[0].name + " ("+cal_age(top[0].bday)+")");
+  }
+    
+    /*
+  if( streak[top[0].id] !== 1 ){
+      board.select(".streak")
+//	.style("fill", d3.rgb(255, 255-(streak/20), +255-(streak/20)))
+	.text("for "+streak[top[0].id]+" days");
+  }
+  else{
+      board.select(".streak")
+	.text("for "+streak[top[0].id]+" day");
+  }
+  previous = top[0].id;*/
+  
+  board.select(".picture")
+    .attr("preserveAspectRatio","xMidYMid")
+    .attr("xlink:href", "pic/"+removeColon(top[0].id)+".jpg");
+ 
+  for(var i=0;i<top.length;i++){
+      renew.push(top[i].id);
+  }
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth()+1),
+        day = '' + d.getDate(),
+        year = '' + d.getFullYear();
+	
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+function strDate(date){
+    var d = new Date(date),
+        month = d.getMonth()+1,
+	day = d.getDate(),
+	year = d.getFullYear();
+
+    if( day < 10 )
+	day = "0"+day;
+    if( month < 10)
+	month = "0"+month;
+	
+    return ""+year+"-"+month+"-"+day;
+}
+
+function reverseString(str) {
+    var newString = "";
+    for (var i = str.length - 1; i >= 0; i--) {
+        newString += str[i];
+    }
+    return newString;
+}
+
+function formatMoney(prize){
+    var str = ''+prize,
+	len = str.length-1,
+        tem = [];
+	
+    for(i=len,j=0;i>=0;i--,j++){
+	if( j%4 === 3 )
+	    tem[j++] = ',';
+	
+	tem[j] = str[i];
+    }
+    
+    return reverseString(tem);
+}
+
+function removeColon(game){
+    var tem;
+    
+    var i = 0,
+	e = 0;
+    while(i < game.length ){ 
+	if( game[i] === ':'){
+	    tem = game.slice(0,i);
+	    e = i+1;
+	}
+	i++;
+    }
+    if( e > 0 ) 
+	tem += game.slice(e,i);
+    else
+	tem = game;
+    
+    return tem;
+}
+
+function formattitle(title){
+    var tem;
+    if( title.length > 23 ){
+	tem = title.slice(0, 20);
+	tem += "...";
+    }
+    else
+	tem = title;
+    
+    return tem;
+}
+
+function cal_age(bday){
+    var b_day = new Date(bday);
+    var age;
+    var year = b_day.getFullYear();
+    var month = b_day.getMonth();
+    var day = b_day.getDate();
+    age = today.getFullYear() - year;
+    if (today.getMonth() < month || (today.getMonth() === month && today.getDate() < day)) {
+	age--;
+    }
+    
+    return age;
+}
+
+function DisplayDate(date){
+    var d = new Date(date),
+        str = d.toDateString(),
+        month = str.slice(4, 7),
+	day = str.slice(8, 10),
+	year = str.slice(11,15);
+
+    return day+" "+month+" "+year;
+}
+
+function daydiff(first, second) {
+    return Math.round((second-first)/(1000*60*60*24));
+}
+
+function arcTween(a) {
+  var i = d3.interpolate(this._current, a);
+  this._current = i(0);
+  return function(t) {
+    return path(i(t));
+  };
+}
+</script>
