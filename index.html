@@ -740,7 +740,7 @@ function redraw() {
 	.attr("x", function(d) { return x(d.elo) - twidth[d.id] - 100; })
 	.attr("y", 2 )
 	.attr("xlink:href", function(d) {
-	    return "race/"+d.race+".png";
+	    return "race/"+today.getFullYear()+"/"+d.race+".png";
 	});
 	
     if( fame === 1 ){
