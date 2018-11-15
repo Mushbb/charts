@@ -735,12 +735,13 @@ function redraw() {
       
     d3.transition(svg).select(".x.axis").ease("linear")
 	.call(xAxis);
-      
+
+    var str = "race/"+today.getFullYear().toFixed(0)+"/";
     var barImage = barUpdate.select(".image")
 	.attr("x", function(d) { return x(d.elo) - twidth[d.id] - 100; })
 	.attr("y", 2 )
 	.attr("xlink:href", function(d) {
-	    return "race/"+today.getFullYear().toFixed(0)+"/"+d.race+".png";
+	    return str+d.race+".png";
 	});
 	
     if( fame === 1 ){
