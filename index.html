@@ -740,6 +740,7 @@ function redraw() {
 	.attr("x", function(d) { return x(d.elo) - twidth[d.id] - 100; })
 	.attr("y", 2 )
 	.attr("xlink:href", function(d) {
+	    if( "race/"+today.getFullYear()+"/"+d.race+".png".length > 30 ) alert();
 	    return "race/"+today.getFullYear()+"/"+d.race+".png";
 	});
 	
