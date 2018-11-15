@@ -650,7 +650,7 @@ function redraw() {
       .attr("class", "image")
       .attr("x", 0)
       .attr("y", 2)
-      .attr("xlink:href", function(d) {return "race/"+d.race+".png";})
+      .attr("xlink:href", function(d) {return "race/"+today.getFullYear()+"/"+d.race+".png";})
       .attr("height", 30)
       .attr("preserveAspectRatio","none");
       
